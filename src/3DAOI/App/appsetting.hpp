@@ -1,0 +1,7 @@
+#ifndef APPSETTING_HPP
+#define APPSETTING_HPP
+
+
+
+
+#endif //APPSETTING_HPP

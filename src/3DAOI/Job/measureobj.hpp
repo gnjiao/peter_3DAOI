@@ -1,0 +1,5 @@
+#ifndef MEASUREOBJ_HPP
+#define MEASUREOBJ_HPP
+
+
+#endif // MEASUREOBJ_HPP

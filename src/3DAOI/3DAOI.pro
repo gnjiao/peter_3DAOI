@@ -6,7 +6,11 @@ QT += core
 QT += sql
 
 SOURCES += main.cpp \
-    SDK/rectangle.cpp
+    SDK/rectangle.cpp \
+    Job/measureobj.cpp \
+    App/appsetting.cpp
 
 HEADERS += \
-    SDK/rectangle.hpp
+    SDK/rectangle.hpp \
+    Job/measureobj.hpp \
+    App/appsetting.hpp
