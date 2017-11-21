@@ -6,6 +6,10 @@ QT += core
 QT += sql
 
 SOURCES += main.cpp \
+    SDK/customexception.cpp
+
+HEADERS += \
+    SDK/customexception.hpp
     SDK/rectangle.cpp \
     Job/measureobj.cpp \
     App/appsetting.cpp
