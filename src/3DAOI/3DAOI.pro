@@ -5,12 +5,17 @@ CONFIG -= app_bundle
 QT += core
 QT += sql
 
-SOURCES += main.cpp \
-    SDK/rectangle.cpp \
-    Job/measureobj.cpp \
-    App/appsetting.cpp
-
 HEADERS += \
+    SDK/customexception.hpp\
     SDK/rectangle.hpp \
     Job/measureobj.hpp \
     App/appsetting.hpp
+
+SOURCES += main.cpp \
+    SDK/customexception.cpp\
+    SDK/rectangle.cpp\
+    Job/measureobj.cpp \
+    App/appsetting.cpp
+
+
+
