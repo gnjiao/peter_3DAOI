@@ -21,7 +21,6 @@ namespace App
         AppSetting();
         ~AppSetting();
 
-        //void setMachineName(std::string machineName);
         void loadAppSetting(const QString& path);
         void readAppSetting(const QString& path);
         void writeAppSetting(const QString& path);

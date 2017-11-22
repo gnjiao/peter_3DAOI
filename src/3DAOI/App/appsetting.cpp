@@ -49,7 +49,7 @@ void App::AppSetting::readAppSetting(const QString &path)
         }
         else
         {
-            std::cout << "加载公司名成功!"
+            std::cout << "加载公司名成功:"
                       << name.toStdString()
                       << std::endl;
         }
@@ -64,7 +64,7 @@ void App::AppSetting::readAppSetting(const QString &path)
         }
         else
         {
-            std::cout << "加载机器类型成功!"
+            std::cout << "加载机器类型成功:"
                       << type.toStdString()
                       << std::endl;
         }
@@ -79,7 +79,7 @@ void App::AppSetting::readAppSetting(const QString &path)
         }
         else
         {
-            std::cout << "加载主题成功!"
+            std::cout << "加载主题成功:"
                       << theme.toStdString()
                       << std::endl;
         }
@@ -94,24 +94,24 @@ void App::AppSetting::readAppSetting(const QString &path)
         }
         else
         {
-            std::cout << "加载语言成功!"
+            std::cout << "加载语言成功:"
                       << lang.toStdString()
                       << std::endl;
         }
 
         //加载轨道模式,如果不正确的话就写入默认值
         QString mode =  configFile.value("LaneMode").toString();
-        if( mode != "SIMULATOR" &&
-            mode != "SINGLELANE" &&
-            mode != "DUALLANE" )
+        if( mode != "Simulators" &&
+            mode != "Singlelane" &&
+            mode != "Duallane" )
         {
             std::cout << "加载轨道模式失败,设置默认值SIMUATOR!"
                       << std::endl;
-            configFile.setValue("LaneMode", "SINGLELANE");
+            configFile.setValue("LaneMode", "Singlelane");
         }
         else
         {
-            std::cout << "加载轨道模式成功!"
+            std::cout << "加载轨道模式成功:"
                       << mode.toStdString()
                       << std::endl;
         }

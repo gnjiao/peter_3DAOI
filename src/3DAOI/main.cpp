@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
     App::AppSetting mm;
-    mm.readAppSetting(APP_SETTING);
+    mm.loadAppSetting(APP_SETTING);
 
     cout << "Hello World!" << endl;
     return 0;
