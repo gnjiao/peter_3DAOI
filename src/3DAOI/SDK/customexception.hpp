@@ -61,11 +61,7 @@ namespace SDK
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         const std::string originalMsg ( )const{return this->m_originalMsg;}
-
-        virtual const char* what() const _GLIBCXX_USE_NOEXCEPT override
-        {
-            return m_originalMsg.data();
-        }
+        virtual const char* what() const _GLIBCXX_USE_NOEXCEPT override{return m_originalMsg.data();}
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private:

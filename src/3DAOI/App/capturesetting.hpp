@@ -1,5 +1,5 @@
-#ifndef APPSETTING_HPP
-#define APPSETTING_HPP
+#ifndef CAPTURESETTING_HPP
+#define CAPTURESETTING_HPP
 
 #include <iostream>
 
@@ -9,61 +9,67 @@
 
 #include "../SDK/customexception.hpp"
 
-/*
-std::string MachineName[2] = {"AOI","SPI"};
-std::string Theme[2] = {"BLACK","WHITE"};
-std::string Lane[2] = {"EN","CN"};
-std::string LaneMode[3] = {"SIMULATOR","SINGLELANE","DUALLANE"};
-*/
-
 namespace App
 {
     /**
-     *  @brief AppSetting
+     *  @brief CaptureSetting
      *
      *  @author peter
      *  @version 1.00 2017-11-22 peter
      *                note:create it
      */
-    class AppSetting
+    class CaptureSetting
     {
     public:
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // constructor & destructor
         /**
-         * @brief AppSetting
+         * @brief CaptureSetting
          *      构造函数
          * @param N/A
          * @return N/A
          */
-        AppSetting();
+        CaptureSetting();
+        /**
+         * @brief CaptureSetting
+         *      构造函数
+         * @param imageWidth
+         *      标定的图像宽度
+         * @param imageHeight
+         *      标定的图像高度
+         * @param imageBits
+         *      图像的位数
+         * @return N/A
+         */
+        CaptureSetting( int imageWidth,
+                        int imageHeitht,
+                        int imageBits );
         /**
          * @brief ~CaptureSetting
          *      析构函数
          * @param N/A
          * @return N/A
          */
-        virtual ~AppSetting();
+        virtual~CaptureSetting();
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // load function
         /**
-         *  @brief loadAppSetting
+         *  @brief loadCaptureSetting
          *      加载配置文件
          *  @param path
          *      待加载的配置文件路径
          *  @return N/A
          */
-        void loadAppSetting(const QString& path);
+        void loadCaptureSetting( const QString& path );
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private:
-        std::string m_companyName;
-        enum MachineName {AOI,SPI}m_machineName;
-        enum Theme {BLACK,WHITE}m_theme;
-        enum Lang {EN,CN}m_lang;
-        enum LaneMode {SIMULATOR,SINGLELANE,DUALLANE}m_laneMode;
+        int m_imageWidth;
+        int m_imageHeight;
+        int m_imageBits;
 
         /**
          *  @brief readCaptureSetting
@@ -72,31 +78,8 @@ namespace App
          *      待读取的配置文件路径
          *  @return N/A
          */
-        void readAppSetting( const QString& path );
-        /**
-         *  @brief readCaptureSetting
-         *      写入配置信息到文件中(配置文件不存在存在)
-         *  @param path
-         *      待写入的配置文件路径
-         *  @return N/A
-         */
-        void writeAppSetting( const QString& path );
-
+        void readCaptureSetting( const QString& path );
     };
-
 }//End of App
 
-#endif //APPSETTING_HPP
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif // CAPTURESETTING_HPP
