@@ -9,13 +9,15 @@ HEADERS += \
     SDK/customexception.hpp\
     SDK/rectangle.hpp \
     Job/measureobj.hpp \
-    App/appsetting.hpp
+    App/appsetting.hpp \
+    Job/measurelist.hpp
 
 SOURCES += main.cpp \
     SDK/customexception.cpp\
     SDK/rectangle.cpp\
     Job/measureobj.cpp \
-    App/appsetting.cpp
+    App/appsetting.cpp \
+    Job/measurelist.cpp
 
 
 
