@@ -25,10 +25,11 @@ namespace Job
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // size & isEmpty & clear function
+        // size & isEmpty & clear &print function
         int size();
         bool isEmpty();
         void clear();
+        void print();
 
         // push & pull function
         void pushBack(MeasureObj measureObj);
@@ -42,7 +43,7 @@ namespace Job
         MeasureObj* m_pHead;
         MeasureObj* m_pTail;
     };
-}
+}//End of Job
 
 #endif // MEASURELIST_HPP
 

@@ -1,6 +1,21 @@
 #include "measurelist.hpp"
 
+//>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//constructor & destructor function
+Job::MeasureList::MeasureList()
+{
 
+}
+
+Job::MeasureList::~MeasureList()
+{
+    clear();
+}
+
+//<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//size & isEmpty & clear & print function
 int Job::MeasureList::size()
 {
     return m_size;
@@ -29,6 +44,16 @@ void Job::MeasureList::clear()
     //如果链表本来就为空，就没必要再进for循环了
 }
 
+void Job::MeasureList::print()
+{
+
+}
+
+//<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//push & pull function
 void Job::MeasureList::pushBack(Job::MeasureObj measureObj)
 {
     Job::MeasureObj* pMeasureObj = new Job::MeasureObj(measureObj);
@@ -63,19 +88,51 @@ void Job::MeasureList::pushFront(Job::MeasureObj measureObj)
     this->m_size++;
 }
 
-//bool Job::MeasureList::pullBack()
-//{
-//    MeasureObj* pMeasureObj = NULL;
-//    if ( isEmpty() )
-//    {
-//        std::cout << "the linked list is empty" << std::endl;
-//        return false;
-//    }
-//    else
-//    {
-//        pMeasureObj = m_pTail;
-//        m_pTail = pMeasureObj->getPre();
-//    }
-//}
+bool Job::MeasureList::pullBack()
+{
+    if ( isEmpty() )
+    {
+        std::cout << "the linked list is empty" << std::endl;
+        return false;
+    }
+    else
+    {
+        MeasureObj* pTemp = m_pTail->getPre();
 
+        delete this->m_pTail;
+        this->m_pTail = pTemp;
+        this->m_pTail->setNext(nullptr);
+        m_size--;
+
+        delete pTemp;
+        pTemp = nullptr;
+
+        return true;
+    }
+}
+
+bool Job::MeasureList::pullFront()
+{
+    if ( isEmpty() )
+    {
+        std::cout << "the linked list is empty" << std::endl;
+        return false;
+    }
+    else
+    {
+        MeasureObj* pTemp = m_pHead->getNext();
+
+        delete this->m_pHead;
+        this->m_pHead = pTemp;
+        this->m_pHead->setPre(nullptr);
+        m_size--;
+
+        delete pTemp;
+        pTemp = nullptr;
+
+        return true;
+    }
+}
+
+//<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

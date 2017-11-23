@@ -42,6 +42,6 @@ namespace Job
         MeasureObj* m_pPre;
         MeasureObj* m_pNext;
     };
-}
+}//End of Job
 
 #endif // MEASUREOBJ_HPP
