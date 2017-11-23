@@ -31,6 +31,23 @@ namespace SDK
          *      图像x轴坐标
          * @param yPos
          *      图像y轴坐标
+         * @param width
+         *      图像宽度
+         * @param height
+         *      图像高度
+         * @return N/A
+         */
+        Rectangle( double xPos,
+                   double yPos,
+                   double width,
+                   double height );
+        /**
+         * @brief Rectangle
+         *      构造函数
+         * @param xPos
+         *      图像x轴坐标
+         * @param yPos
+         *      图像y轴坐标
          * @param angle
          *      图像旋转角度
          * @param width
