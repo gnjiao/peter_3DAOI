@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "measureobj.hpp"
+#include "../SDK/customexception.hpp"
 
 namespace Job
 {
@@ -19,6 +20,12 @@ namespace Job
     public:
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //constructor & destructor
+        /**
+         *  @brief MeasureList
+         *      默认构造函数
+         *  @param N/A
+         *  @return N/A
+         */
         MeasureList();
         ~MeasureList();
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -26,20 +33,20 @@ namespace Job
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // size & isEmpty & clear &print function
-        int size();
-        bool isEmpty();
+        int size(){return m_size;}
+        bool isEmpty(){return 0==m_size?true:false;}
         void clear();
         void print();
 
         // push & pull function
         void pushBack(MeasureObj measureObj);
         void pushFront(MeasureObj measureObj);
-        bool pullBack();
-        bool pullFront();
+        void pullBack();
+        void pullFront();
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private:
-        int m_size;
+        int m_size {0};
         MeasureObj* m_pHead;
         MeasureObj* m_pTail;
     };

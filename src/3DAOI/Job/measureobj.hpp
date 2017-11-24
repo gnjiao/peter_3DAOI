@@ -21,19 +21,21 @@ namespace Job
         //constructor & destructor
         MeasureObj();
         MeasureObj( std::string name,
-                    SDK::Rectangle& body,
-                    MeasureObj* pPre=nullptr,
-                    MeasureObj* pNext=nullptr );
+                    SDK::Rectangle& body );
+        MeasureObj(const MeasureObj& measureObj);
         virtual~MeasureObj();
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //get & set function
-        MeasureObj* getPre();
-        MeasureObj* getNext();
-        void setPre(MeasureObj* pPre);
-        void setNext(MeasureObj* pNext);
+        std::string getName()const{return this->m_name;}
+        SDK::Rectangle getBody()const{return this->m_body;}
+        MeasureObj *getPre()const{return this->m_pPre;}
+        MeasureObj *getNext()const{return this->m_pNext;}
+
+        void setPre(MeasureObj* pPre){this->m_pPre = pPre;}
+        void setNext(MeasureObj* pNext){this->m_pNext = pNext;}
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private:

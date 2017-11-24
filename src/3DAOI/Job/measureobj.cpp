@@ -1,43 +1,37 @@
 #include "measureobj.hpp"
 
-
+//>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//constructor & destructor
 Job::MeasureObj::MeasureObj()
 {
 
 }
 
 Job::MeasureObj::MeasureObj(std::string name,
-                            SDK::Rectangle &body,
-                            Job::MeasureObj *pPre,
-                            Job::MeasureObj *pNext)
+                            SDK::Rectangle &body)
 {
     this->m_name = name;
     this->m_body = body;
-    this->m_pPre = pPre;
-    this->m_pNext = pNext;
+    this->m_pPre = nullptr;
+    this->m_pNext = nullptr;
+}
+
+Job::MeasureObj::MeasureObj(const MeasureObj &measureObj)
+{
+    this->m_name = measureObj.getName();
+
+    this->m_body.setPosX( measureObj.getBody().getPosX() );
+    this->m_body.setPosY( measureObj.getBody().getPosY() );
+    this->m_body.setWidth( measureObj.getBody().getWidth() );
+    this->m_body.setHeight( measureObj.getBody().getHeight() );
+
+    this->m_pPre = measureObj.getPre();
+    this->m_pNext = measureObj.getNext();
 }
 
 Job::MeasureObj::~MeasureObj()
 {
 
 }
+//<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Job::MeasureObj *Job::MeasureObj::getPre()
-{
-    return this->m_pPre;
-}
-
-Job::MeasureObj *Job::MeasureObj::getNext()
-{
-    return this->m_pNext;
-}
-
-void Job::MeasureObj::setPre(Job::MeasureObj *pPre)
-{
-    this->m_pPre = pPre;
-}
-
-void Job::MeasureObj::setNext(Job::MeasureObj *pNext)
-{
-    this->m_pNext = pNext;
-}

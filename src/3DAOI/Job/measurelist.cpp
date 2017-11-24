@@ -4,7 +4,9 @@
 //constructor & destructor function
 Job::MeasureList::MeasureList()
 {
-
+    this->m_size = 0;
+    this->m_pHead = nullptr;
+    this->m_pTail = nullptr;
 }
 
 Job::MeasureList::~MeasureList()
@@ -15,29 +17,18 @@ Job::MeasureList::~MeasureList()
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//size & isEmpty & clear & print function
-int Job::MeasureList::size()
-{
-    return m_size;
-}
-
-bool Job::MeasureList::isEmpty()
-{
-    return m_size == 0?true:false;
-}
+//clear & print function
 
 void Job::MeasureList::clear()
 {
     //从链表头到链表尾的方式逐个删除
-    const int cnt=size();
     if ( !isEmpty() )
     {
-        MeasureObj* temp = nullptr;
-        for (int i=1;i<=cnt;++i)
+        for ( int i = 0;i < size(); ++i )
         {
-            temp = m_pHead->getNext();
-            delete m_pHead;
-            m_pHead=temp;
+            this->m_pHead = this->m_pHead->getNext();
+            delete this->m_pHead->getPre();
+            this->m_pHead->setPre(nullptr);
             m_size--;
         }
     }
@@ -46,7 +37,30 @@ void Job::MeasureList::clear()
 
 void Job::MeasureList::print()
 {
+    //从链表头到链表尾
+    const int cnt = size();
+    if ( !isEmpty() )
+    {
+        MeasureObj* pTemp = this->m_pHead;
+        for ( int i = 1;i <= cnt; ++i )
+        {
+            std::cout << pTemp->getName() << "\t"
+                      << pTemp->getBody().getPosX() << "\t"
+                      << pTemp->getBody().getPosY() << "\t"
+                      << pTemp->getBody().getWidth() << "\t"
+                      << pTemp->getBody().getHeight()
+                      << std::endl;
 
+            pTemp = pTemp->getNext();
+        }
+        delete pTemp;
+        pTemp = nullptr;
+    }
+    else
+    {
+        std::cout << "the linked list is empty" << std::endl;
+    }
+    //链表为空
 }
 
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -74,6 +88,7 @@ void Job::MeasureList::pushBack(Job::MeasureObj measureObj)
 void Job::MeasureList::pushFront(Job::MeasureObj measureObj)
 {
     Job::MeasureObj* pMeasureObj = new Job::MeasureObj(measureObj);
+
     if(isEmpty())
     {
         this->m_pHead = pMeasureObj;
@@ -88,51 +103,56 @@ void Job::MeasureList::pushFront(Job::MeasureObj measureObj)
     this->m_size++;
 }
 
-bool Job::MeasureList::pullBack()
+void Job::MeasureList::pullBack()
 {
-    if ( isEmpty() )
+    try
     {
-        std::cout << "the linked list is empty" << std::endl;
-        return false;
+        if ( isEmpty() )
+        {
+            THROW_EXCEPTION("the linked list is empty");
+        }
+        else
+        {
+            this->m_pTail = this->m_pTail->getPre();
+            delete this->m_pTail->getNext();
+            this->m_pTail->setNext(nullptr);
+            m_size--;
+        }
     }
-    else
+    catch ( const SDK::CustomException& ex )
     {
-        MeasureObj* pTemp = m_pTail->getPre();
-
-        delete this->m_pTail;
-        this->m_pTail = pTemp;
-        this->m_pTail->setNext(nullptr);
-        m_size--;
-
-        delete pTemp;
-        pTemp = nullptr;
-
-        return true;
+        THROW_EXCEPTION(ex.what())
     }
 }
 
-bool Job::MeasureList::pullFront()
+void Job::MeasureList::pullFront()
 {
-    if ( isEmpty() )
+    try
     {
-        std::cout << "the linked list is empty" << std::endl;
-        return false;
+        if ( isEmpty() )
+        {
+            THROW_EXCEPTION("the linked list is empty");
+        }
+        else
+        {
+            this->m_pHead = this->m_pHead->getNext();
+            delete this->m_pHead->getPre();
+            this->m_pHead->setPre(nullptr);
+            m_size--;
+        }
     }
-    else
+    catch ( const SDK::CustomException& ex )
     {
-        MeasureObj* pTemp = m_pHead->getNext();
-
-        delete this->m_pHead;
-        this->m_pHead = pTemp;
-        this->m_pHead->setPre(nullptr);
-        m_size--;
-
-        delete pTemp;
-        pTemp = nullptr;
-
-        return true;
+        THROW_EXCEPTION(ex.what())
     }
 }
 
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 

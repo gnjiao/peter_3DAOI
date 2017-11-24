@@ -72,12 +72,18 @@ namespace SDK
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // get function
-        double getPosX(){return this->m_xPos;}
-        double getPosY(){return m_yPos;}
-        double getAngle(){return m_angle;}
-        double getWidth(){return m_width;}
-        double getHeight(){return m_height;}
+        // get & set function
+        double getPosX()const {return this->m_xPos;}
+        double getPosY()const {return m_yPos;}
+        double getAngle()const {return m_angle;}
+        double getWidth()const {return m_width;}
+        double getHeight()const {return m_height;}
+
+        void setPosX(double xPos){ this->m_xPos = xPos;}
+        void setPosY(double yPos){ this->m_yPos = yPos;}
+        void setAngle(double angle){ this->m_angle = angle;}
+        void setWidth(double width){ this->m_width = width;}
+        void setHeight(double height){ this->m_height = height;}
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private:

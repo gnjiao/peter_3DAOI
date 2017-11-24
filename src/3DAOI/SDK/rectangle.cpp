@@ -5,8 +5,9 @@ SDK::Rectangle::Rectangle()
 {
     this->m_xPos = 0;
     this->m_yPos = 0;
-    this->m_width = 0;
-    this->m_height = 0;
+    this->m_angle = 0.0;
+    this->m_width = 60;
+    this->m_height = 60;
 }
 
 SDK::Rectangle::Rectangle( double xPos,
