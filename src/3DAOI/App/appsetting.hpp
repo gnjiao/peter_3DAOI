@@ -9,12 +9,29 @@
 
 #include "../SDK/customexception.hpp"
 
-/*
-std::string MachineName[2] = {"AOI","SPI"};
-std::string Theme[2] = {"BLACK","WHITE"};
-std::string Lane[2] = {"EN","CN"};
-std::string LaneMode[3] = {"SIMULATOR","SINGLELANE","DUALLANE"};
-*/
+#define VAR_TO_STR(var)\
+    ({\
+        std::string name = (#var);\
+        int pos = 0;\
+        int length = 0;\
+        length = name.length();\
+        pos = name.find_last_of(':',length);\
+        if ( pos == -1 )\
+        {\
+            pos = 0;\
+            name = name.substr(pos,length);\
+        }\
+        else\
+        {\
+            name = name.substr(length - pos,length);\
+        }\
+        (name);\
+    })
+
+enum MachineName {AOI,SPI};
+enum Theme {BLACK,WHITE};
+enum Language {EN,CN};
+enum LaneMode {SIMULATOR,SINGLELANE,DUALLANE};
 
 namespace App
 {
@@ -46,6 +63,7 @@ namespace App
         virtual ~AppSetting();
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // load function
         /**
@@ -59,12 +77,8 @@ namespace App
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private:
-        std::string m_companyName;
-        enum MachineName {AOI,SPI}m_machineName;
-        enum Theme {BLACK,WHITE}m_theme;
-        enum Lang {EN,CN}m_lang;
-        enum LaneMode {SIMULATOR,SINGLELANE,DUALLANE}m_laneMode;
-
+//>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //read & write function
         /**
          *  @brief readCaptureSetting
          *      读取配置文件中的信息(配置文件存在)
@@ -75,13 +89,20 @@ namespace App
         void readAppSetting( const QString& path );
         /**
          *  @brief readCaptureSetting
-         *      写入配置信息到文件中(配置文件不存在存在)
+         *      写入配置信息到文件中(配置文件不存在)
          *  @param path
          *      待写入的配置文件路径
          *  @return N/A
          */
         void writeAppSetting( const QString& path );
+//<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+    private:
+        std::string m_companyName {"SciJet"};
+        MachineName m_machineName {AOI};
+        Theme m_theme {WHITE};
+        Language m_lang {EN};
+        LaneMode m_laneMode {DUALLANE};
     };
 
 }//End of App
