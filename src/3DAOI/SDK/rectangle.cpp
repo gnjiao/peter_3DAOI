@@ -8,8 +8,20 @@ SDK::Rectangle::Rectangle()
 {
     this->m_xPos = 0;
     this->m_yPos = 0;
-    this->m_width = 0;
-    this->m_height = 0;
+    this->m_angle = 0.0;
+    this->m_width = 60;
+    this->m_height = 60;
+}
+
+SDK::Rectangle::Rectangle( double xPos,
+                           double yPos,
+                           double width,
+                           double height )
+{
+    this->m_xPos = xPos;
+    this->m_yPos = yPos;
+    this->m_width = width;
+    this->m_height = height;
 }
 
 SDK::Rectangle::Rectangle( double xPos,

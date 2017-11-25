@@ -1,49 +1,56 @@
-#ifndef MEASUREOBJ_HPP
-#define MEASUREOBJ_HPP
+#ifndef MEASURELIST_HPP
+#define MEASURELIST_HPP
 
 #include <iostream>
 
-#include "../SDK/rectangle.hpp"
+#include "measureobj.hpp"
+#include "../SDK/customexception.hpp"
 
 namespace Job
 {
     /**
-     *  @brief MeasureObj
+     *  @brief MeasureList
      *
      *  @author peter
      *  @version 1.00 2017-11-22 peter
      *                note:create it
      */
-    class MeasureObj
+    class MeasureList
     {
     public:
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //constructor & destructor
-        MeasureObj();
-        MeasureObj( std::string name,
-                    SDK::Rectangle& body );
-        MeasureObj(const MeasureObj& measureObj);
-        virtual~MeasureObj();
+        /**
+         *  @brief MeasureList
+         *      默认构造函数
+         *  @param N/A
+         *  @return N/A
+         */
+        MeasureList();
+        ~MeasureList();
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        //get & set function
-        std::string getName()const{return this->m_name;}
-        SDK::Rectangle getBody()const{return this->m_body;}
-        MeasureObj *getPre()const{return this->m_pPre;}
-        MeasureObj *getNext()const{return this->m_pNext;}
+        // size & isEmpty & clear &print function
+        int size(){return m_size;}
+        bool isEmpty(){return 0==m_size?true:false;}
+        void clear();
+        void print();
 
-        void setPre(MeasureObj* pPre){this->m_pPre = pPre;}
-        void setNext(MeasureObj* pNext){this->m_pNext = pNext;}
+        // push & pull function
+        void pushBack(MeasureObj measureObj);
+        void pushFront(MeasureObj measureObj);
+        void pullBack();
+        void pullFront();
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private:
-        std::string m_name;
-        SDK::Rectangle m_body;
-        MeasureObj* m_pPre;
-        MeasureObj* m_pNext;
+        int m_size {0};
+        MeasureObj* m_pHead;
+        MeasureObj* m_pTail;
     };
 }//End of Job
 
-#endif // MEASUREOBJ_HPP
+#endif // MEASURELIST_HPP
+

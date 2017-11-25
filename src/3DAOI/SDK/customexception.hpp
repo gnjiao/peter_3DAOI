@@ -68,6 +68,6 @@ namespace SDK
         std::string m_originalMsg;
     };
 
-}
+}//End of SDK
 
 #endif // CUSTOMEXCEPTION_HPP
