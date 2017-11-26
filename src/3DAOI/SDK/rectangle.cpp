@@ -6,11 +6,7 @@
 
 SDK::Rectangle::Rectangle()
 {
-    this->m_xPos = 0;
-    this->m_yPos = 0;
-    this->m_angle = 0.0;
-    this->m_width = 60;
-    this->m_height = 60;
+
 }
 
 SDK::Rectangle::Rectangle( double xPos,
@@ -35,6 +31,15 @@ SDK::Rectangle::Rectangle( double xPos,
     this->m_angle = angle;
     this->m_width = width;
     this->m_height = height;
+}
+
+SDK::Rectangle::Rectangle(const SDK::Rectangle &rectangle)
+{
+    this->m_xPos = rectangle.getPosX();
+    this->m_yPos = rectangle.getPosY();
+    this->m_angle = rectangle.getAngle();
+    this->m_width = rectangle.getWidth();
+    this->m_height = rectangle.getHeight();
 }
 
 SDK::Rectangle::~Rectangle()

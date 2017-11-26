@@ -61,6 +61,7 @@ namespace SDK
                    double angle,
                    double width,
                    double height );
+        Rectangle( const Rectangle& rectangle);
         /**
          * @brief ~Rectangle
          *      析构函数
@@ -74,10 +75,10 @@ namespace SDK
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // get & set function
         double getPosX()const {return this->m_xPos;}
-        double getPosY()const {return m_yPos;}
-        double getAngle()const {return m_angle;}
-        double getWidth()const {return m_width;}
-        double getHeight()const {return m_height;}
+        double getPosY()const {return this->m_yPos;}
+        double getAngle()const {return this->m_angle;}
+        double getWidth()const {return this->m_width;}
+        double getHeight()const {return this->m_height;}
 
         void setPosX(double xPos){ this->m_xPos = xPos;}
         void setPosY(double yPos){ this->m_yPos = yPos;}
@@ -87,11 +88,11 @@ namespace SDK
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private:
-        double m_xPos;
-        double m_yPos;
-        double m_angle;
-        double m_width;
-        double m_height;
+        double m_xPos {0};
+        double m_yPos {0};
+        double m_angle {0.0};
+        double m_width {100};
+        double m_height {100};
     };
 
 }//End of SDK

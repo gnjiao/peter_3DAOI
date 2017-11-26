@@ -6,9 +6,7 @@
 
 App::CaptureSetting::CaptureSetting()
 {
-    this->m_imageWidth = 100;
-    this->m_imageHeight = 100;
-    this->m_imageBits = 8;
+
 }
 
 App::CaptureSetting::CaptureSetting(int imageWidth,

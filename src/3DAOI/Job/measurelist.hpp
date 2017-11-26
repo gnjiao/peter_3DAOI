@@ -47,8 +47,8 @@ namespace Job
 
     private:
         int m_size {0};
-        MeasureObj* m_pHead;
-        MeasureObj* m_pTail;
+        MeasureObj* m_pHead = nullptr;
+        MeasureObj* m_pTail = nullptr;
     };
 }//End of Job
 

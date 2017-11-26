@@ -41,8 +41,8 @@ namespace Job
     private:
         std::string m_name;
         SDK::Rectangle m_body;
-        MeasureObj* m_pPre;
-        MeasureObj* m_pNext;
+        MeasureObj* m_pPre = nullptr;
+        MeasureObj* m_pNext = nullptr;
     };
 }//End of Job
 
