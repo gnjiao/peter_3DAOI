@@ -39,8 +39,8 @@ namespace Job
         void print();
 
         // push & pull function
-        void pushBack(MeasureObj measureObj);
-        void pushFront(MeasureObj measureObj);
+        void pushBack(MeasureObj& measureObj);
+        void pushFront(MeasureObj& measureObj);
         void pullBack();
         void pullFront();
         //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

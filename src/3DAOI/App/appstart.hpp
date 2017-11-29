@@ -26,6 +26,7 @@ namespace App
     private:
         AppSetting m_appSetting;
         CaptureSetting m_captureSetting;
+
         std::string m_jobFolderPath;
 
     };

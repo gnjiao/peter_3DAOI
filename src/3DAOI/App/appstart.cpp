@@ -65,7 +65,7 @@ void App::AppStart::scanJobFolder(const QString& path)
                       << "Please choice the file!(1-" << list.size() << ")"
                       << std::endl;
             std::cin >> index;
-
+            //判断输入是否为数字
             if(!std::cin)
             {
                 std::cout << "Error! not a digit!"

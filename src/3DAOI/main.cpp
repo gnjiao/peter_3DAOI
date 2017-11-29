@@ -19,13 +19,22 @@ using namespace std;
 int main()
 {
 
-    App::AppStart appStart;
+//    App::AppStart appStart;
 
-    appStart.loadSetting( APP_SETTING_PATH,
-                          CAPTURE_SETTING_PATH );
-    appStart.scanJobFolder(JOB_FOLDER_PATH);
+//    appStart.loadSetting( APP_SETTING_PATH,
+//                          CAPTURE_SETTING_PATH );
+//    appStart.scanJobFolder(JOB_FOLDER_PATH);
 
+    SDK::Rectangle pad1(0,0,100,100);
+    SDK::Rectangle pad2(1,1,101,101);
+    Job::MeasureObj measureObj1("chip_001",pad1);
+    Job::MeasureObj measureObj2("chip_002",pad2);
 
+    Job::MeasureList measureList;
+    measureList.pushBack(measureObj1);
+    measureList.pushFront(measureObj2);
+
+    measureList.print();
 
     return 0;
 }
