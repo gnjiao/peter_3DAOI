@@ -35,6 +35,14 @@ int main()
     measureList.pushFront(measureObj2);
 
     measureList.print();
+    measureList.print();
+    measureList.pullBack();
+    measureList.print();
+    measureList.pullBack();
+    measureList.print();
+
+    measureList.clear();
+
 
     return 0;
 }

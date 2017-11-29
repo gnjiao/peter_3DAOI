@@ -102,6 +102,7 @@ void Job::MeasureList::pullBack()
         {
             this->m_pHead = nullptr;
             this->m_pTail = nullptr;
+            m_size--;
         }
         else
         {
@@ -122,6 +123,7 @@ void Job::MeasureList::pullFront()
         {
            this->m_pHead = nullptr;
            this->m_pTail = nullptr;
+            m_size--;
         }
         else
         {

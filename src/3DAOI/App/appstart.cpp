@@ -35,7 +35,7 @@ void App::AppStart::scanJobFolder(const QString& path)
     }
 
     //step2:扫描检测程式
-    QStringList filters;//创建过滤器列表，过滤xml为后缀的文件
+    QStringList filters;    //创建过滤器列表，过滤xml为后缀的文件
     filters << "*[^x][^m][^l]";
     dir.setNameFilters(filters);
 
