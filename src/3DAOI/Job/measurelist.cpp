@@ -1,23 +1,24 @@
 #include "measurelist.hpp"
 
+using Job::MeasureList;
+
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //constructor & destructor function
-Job::MeasureList::MeasureList()
+MeasureList::MeasureList()
 {
 
 }
 
-Job::MeasureList::~MeasureList()
+MeasureList::~MeasureList()
 {
     clear();
 }
-
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //clear & print function
-
-void Job::MeasureList::clear()
+void MeasureList::clear()
 {
     if ( !isEmpty() )
     {
@@ -25,8 +26,7 @@ void Job::MeasureList::clear()
         this->m_pTail = nullptr;
     }
 }
-
-void Job::MeasureList::print()
+void MeasureList::print()
 {
     const int cnt = size();
     //从链表头到链表尾
@@ -53,13 +53,12 @@ void Job::MeasureList::print()
     }
     //链表为空
 }
-
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //push & pull function
-void Job::MeasureList::pushBack( Job::MeasureObj& measureObj)
+void MeasureList::pushBack( Job::MeasureObj& measureObj)
 {
     if(isEmpty())
     {
@@ -75,7 +74,7 @@ void Job::MeasureList::pushBack( Job::MeasureObj& measureObj)
     this->m_size++;
 }
 
-void Job::MeasureList::pushFront(MeasureObj &measureObj)
+void MeasureList::pushFront(MeasureObj &measureObj)
 {
     if(isEmpty())
     {
@@ -91,7 +90,7 @@ void Job::MeasureList::pushFront(MeasureObj &measureObj)
     this->m_size++;
 }
 
-void Job::MeasureList::pullBack()
+void MeasureList::pullBack()
 {
         if ( isEmpty() )
         {
@@ -112,7 +111,7 @@ void Job::MeasureList::pullBack()
         }
 }
 
-void Job::MeasureList::pullFront()
+void MeasureList::pullFront()
 {
         if ( isEmpty() )
         {
@@ -132,7 +131,6 @@ void Job::MeasureList::pullFront()
             m_size--;
         }
 }
-
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 

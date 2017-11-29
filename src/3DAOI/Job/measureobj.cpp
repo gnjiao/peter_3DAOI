@@ -1,26 +1,28 @@
 #include "measureobj.hpp"
 
+using Job::MeasureObj;
+
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //constructor & destructor
-Job::MeasureObj::MeasureObj()
+MeasureObj::MeasureObj()
 {
 
 }
 
-Job::MeasureObj::MeasureObj(std::string name,
+MeasureObj::MeasureObj(std::string name,
                             SDK::Rectangle &body)
 {
     this->m_name = name;
     this->m_body = body;
 }
 
-Job::MeasureObj::MeasureObj(const MeasureObj &measureObj)
+MeasureObj::MeasureObj(const MeasureObj &measureObj)
 {
     this->m_name = measureObj.name();
     this->m_body = measureObj.body();
 }
 
-Job::MeasureObj::~MeasureObj()
+MeasureObj::~MeasureObj()
 {
 
 }

@@ -1,25 +1,23 @@
 #include "appsetting.hpp"
 
+using App::AppSetting;
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // constructor & destructor
-
-App::AppSetting::AppSetting()
+AppSetting::AppSetting()
 {
 
 }
 
-App::AppSetting::~AppSetting()
+AppSetting::~AppSetting()
 {
 
 }
-
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // load & read & write function
-
-void App::AppSetting::loadAppSetting(const QString &path)
+void AppSetting::loadAppSetting(const QString &path)
 {
     try
     {
@@ -38,7 +36,7 @@ void App::AppSetting::loadAppSetting(const QString &path)
     }
 }
 
-void App::AppSetting::readAppSetting(const QString &path)
+void AppSetting::readAppSetting(const QString &path)
 {
     try
     {
@@ -129,7 +127,7 @@ void App::AppSetting::readAppSetting(const QString &path)
     }
 }
 
-void App::AppSetting::writeAppSetting(const QString &path)
+void AppSetting::writeAppSetting(const QString &path)
 {
     try
     {
@@ -150,7 +148,6 @@ void App::AppSetting::writeAppSetting(const QString &path)
         THROW_EXCEPTION(ex.what());
     }
 }
-
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 

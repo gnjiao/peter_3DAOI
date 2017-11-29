@@ -1,15 +1,15 @@
 #include "capturesetting.hpp"
 
+using App::CaptureSetting;
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // constructor & destructor
-
-App::CaptureSetting::CaptureSetting()
+CaptureSetting::CaptureSetting()
 {
 
 }
 
-App::CaptureSetting::CaptureSetting(int imageWidth,
+CaptureSetting::CaptureSetting(int imageWidth,
                                     int imageHeitht,
                                     int imageBits)
 {
@@ -18,18 +18,16 @@ App::CaptureSetting::CaptureSetting(int imageWidth,
     this->m_imageBits = imageBits;
 }
 
-App::CaptureSetting::~CaptureSetting()
+CaptureSetting::~CaptureSetting()
 {
 
 }
-
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // load & read function
-
-void App::CaptureSetting::loadCaptureSetting(const QString &path)
+void CaptureSetting::loadCaptureSetting(const QString &path)
 {
     try
     {
@@ -48,7 +46,7 @@ void App::CaptureSetting::loadCaptureSetting(const QString &path)
     }
 }
 
-void App::CaptureSetting::readCaptureSetting(const QString &path)
+void CaptureSetting::readCaptureSetting(const QString &path)
 {
     try
     {
@@ -75,7 +73,7 @@ void App::CaptureSetting::readCaptureSetting(const QString &path)
 }
 
 
-void App::CaptureSetting::writeCaptureSetting(const QString &path)
+void CaptureSetting::writeCaptureSetting(const QString &path)
 {
     try
     {
