@@ -25,11 +25,10 @@ void Job::MeasureList::clear()
     {
         for ( int i = 1;i < cnt; ++i )
         {
-            this->m_pHead = this->m_pHead->getNext();
-            delete this->m_pHead->getPre();
+            this->m_pHead = this->m_pHead->next();
+            delete this->m_pHead->pre();
             this->m_pHead->setPre(nullptr);
             m_size--;
-            print();std::cout<<"------------------------------------"<<std::endl;
         }
         delete this->m_pHead;
         m_size--;
@@ -45,14 +44,14 @@ void Job::MeasureList::print()
         MeasureObj* pTemp = this->m_pHead;
         for ( int i = 0;i < size(); ++i )
         {
-            std::cout << pTemp->getName() << "\t"
-                      << pTemp->getBody().getPosX() << "\t"
-                      << pTemp->getBody().getPosY() << "\t"
-                      << pTemp->getBody().getWidth() << "\t"
-                      << pTemp->getBody().getHeight()
+            std::cout << pTemp->name() << "\t"
+                      << pTemp->body().xPos() << "\t"
+                      << pTemp->body().yPos() << "\t"
+                      << pTemp->body().width() << "\t"
+                      << pTemp->body().height()
                       << std::endl;
 
-            pTemp = pTemp->getNext();
+            pTemp = pTemp->next();
         }
         delete pTemp;
         pTemp = nullptr;
@@ -121,8 +120,8 @@ void Job::MeasureList::pullBack()
         }
         else
         {
-            m_pTail = m_pTail->getPre();
-            delete m_pTail->getNext();
+            m_pTail = m_pTail->pre();
+            delete m_pTail->next();
             m_pTail->setNext(nullptr);
             m_size--;
         }
@@ -147,8 +146,8 @@ void Job::MeasureList::pullFront()
         }
         else
         {
-            m_pHead = m_pHead->getNext();
-            delete m_pHead->getPre();
+            m_pHead = m_pHead->next();
+            delete m_pHead->pre();
             m_pHead->setPre(nullptr);
             m_size--;
         }

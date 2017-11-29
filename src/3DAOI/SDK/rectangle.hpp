@@ -74,16 +74,19 @@ namespace SDK
 
         //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // get & set function
-        double getPosX()const {return this->m_xPos;}
-        double getPosY()const {return this->m_yPos;}
-        double getAngle()const {return this->m_angle;}
-        double getWidth()const {return this->m_width;}
-        double getHeight()const {return this->m_height;}
-
+        double xPos()const {return this->m_xPos;}
         void setPosX(double xPos){ this->m_xPos = xPos;}
+
+        double yPos()const {return this->m_yPos;}
         void setPosY(double yPos){ this->m_yPos = yPos;}
+
+        double angle()const {return this->m_angle;}
         void setAngle(double angle){ this->m_angle = angle;}
+
+        double width()const {return this->m_width;}
         void setWidth(double width){ this->m_width = width;}
+
+        double height()const {return this->m_height;}
         void setHeight(double height){ this->m_height = height;}
         //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -95,6 +98,6 @@ namespace SDK
         double m_height {100};
     };
 
-}//End of SDK
+}//End of namespace SDK
 
 #endif // RECTANGLE_HPP

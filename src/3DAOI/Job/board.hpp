@@ -11,7 +11,7 @@ namespace Job
     {
     public:
         Board();
-        virtual Board();
+        virtual~Board();
 
         void writeToXml(std::string name);
 
@@ -24,7 +24,7 @@ namespace Job
         double m_originalX;
         double m_originalY;
     };
-}
+}//End of namespace Job
 
 
 #endif // BOARD_HPP

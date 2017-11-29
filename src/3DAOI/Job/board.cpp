@@ -1,6 +1,11 @@
 #include "board.hpp"
 
-Board::Board()
+Job::Board::Board()
+{
+
+}
+
+Job::Board::~Board()
 {
 
 }

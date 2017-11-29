@@ -58,10 +58,10 @@ namespace App
         // load function
         /**
          *  @brief loadCaptureSetting
-         *      加载配置文件
+         *      加载配置文件(配置文件存在则读取(read)文件，不存在则直接退出程序
          *  @param path
          *      待加载的配置文件路径
-         *  @return N/A
+         *  @return N/A//
          */
         void loadCaptureSetting( const QString& path );
         //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -77,6 +77,7 @@ namespace App
          *  @return N/A
          */
         void readCaptureSetting( const QString& path );
+        void writeCaptureSetting( const QString& path );
         //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private:
@@ -86,6 +87,6 @@ namespace App
 
 
     };
-}//End of App
+}//End of namespace App
 
 #endif // CAPTURESETTING_HPP

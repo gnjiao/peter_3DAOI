@@ -8,30 +8,31 @@
 #include <QMetaEnum>
 
 #include "../SDK/customexception.hpp"
+#include "../SDK/formatconversion.hpp"
 
-#define VAR_TO_STR(var)\
-    ({\
-        std::string name = (#var);\
-        int pos = 0;\
-        int length = 0;\
-        length = name.length();\
-        pos = name.find_last_of(':',length);\
-        if ( pos == -1 )\
-        {\
-            pos = 0;\
-            name = name.substr(pos,length);\
-        }\
-        else\
-        {\
-            name = name.substr(length - pos,length);\
-        }\
-        (name);\
-    })
 
-enum MachineName {AOI,SPI};
-enum Theme {BLACK,WHITE};
-enum Language {EN,CN};
-enum LaneMode {SIMULATOR,SINGLELANE,DUALLANE};
+
+enum class MACHINE_NAME
+{
+    AOI,
+    SPI
+};
+enum class THEME
+{
+    BLACK,
+    WHITE
+};
+enum class LANGUAGE
+{
+    EN,
+    CN
+};
+enum class LANE_MODE
+{
+    SIMULATOR,
+    SINGLELANE,
+    DUALLANE
+};
 
 namespace App
 {
@@ -99,13 +100,13 @@ namespace App
 
     private:
         std::string m_companyName {"SciJet"};
-        MachineName m_machineName {AOI};
-        Theme m_theme {WHITE};
-        Language m_lang {EN};
-        LaneMode m_laneMode {DUALLANE};
+        MACHINE_NAME m_machineName {MACHINE_NAME::AOI};
+        THEME m_theme {THEME::WHITE};
+        LANGUAGE m_lang {LANGUAGE::EN};
+        LANE_MODE m_laneMode {LANE_MODE::DUALLANE};
     };
 
-}//End of App
+}//End of namespace App
 
 #endif //APPSETTING_HPP
 

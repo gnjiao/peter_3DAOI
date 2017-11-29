@@ -35,11 +35,11 @@ SDK::Rectangle::Rectangle( double xPos,
 
 SDK::Rectangle::Rectangle(const SDK::Rectangle &rectangle)
 {
-    this->m_xPos = rectangle.getPosX();
-    this->m_yPos = rectangle.getPosY();
-    this->m_angle = rectangle.getAngle();
-    this->m_width = rectangle.getWidth();
-    this->m_height = rectangle.getHeight();
+    this->m_xPos = rectangle.xPos();
+    this->m_yPos = rectangle.yPos();
+    this->m_angle = rectangle.angle();
+    this->m_width = rectangle.width();
+    this->m_height = rectangle.height();
 }
 
 SDK::Rectangle::~Rectangle()

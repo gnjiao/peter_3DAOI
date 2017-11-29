@@ -35,7 +35,7 @@ void App::CaptureSetting::loadCaptureSetting(const QString &path)
     {
         if( !QFile::exists(path) )
         {   // 配置文件不存在
-            THROW_EXCEPTION("No CaptureSetting.ini!")
+            THROW_EXCEPTION("No CaptureSetting.ini!");
         }
         else
         {   // 配置文件存在,读取配置文件
@@ -55,17 +55,16 @@ void App::CaptureSetting::readCaptureSetting(const QString &path)
         QSettings configFile(path, QSettings::IniFormat);
 
         // 加载图像高度
-        int imgWidth =  configFile.value("Image Width").toInt();
+        int imgWidth =  configFile.value("ImageWidth").toInt();
         // 加载图像宽度
-        int imgHeight = configFile.value("Image Height").toInt();
+        int imgHeight = configFile.value("ImageHeight").toInt();
         // 加载图像位数
-        int imgBits = configFile.value("Image Bits").toInt();
+        int imgBits = configFile.value("ImageBits").toInt();
 
         if( this->m_imageWidth != imgWidth ||
             this->m_imageHeight != imgHeight ||
             this->m_imageBits != imgBits )
         {
-            printf("imgWidth:%d\n",imgWidth);
             THROW_EXCEPTION("Image configuare arguement error!");
         }
     }
@@ -75,6 +74,27 @@ void App::CaptureSetting::readCaptureSetting(const QString &path)
     }
 }
 
+
+void App::CaptureSetting::writeCaptureSetting(const QString &path)
+{
+    try
+    {
+        QSettings configFile(path, QSettings::IniFormat);
+        if( 1 != QSettings::IniFormat)
+        {
+            THROW_EXCEPTION("Load ini file error!")
+        }
+        // 配置文件不存在,创建默认值配置文件
+        configFile.setValue("ImageWidth", "100");
+        configFile.setValue("ImageHeight", "100");
+        configFile.setValue("ImageBits", "8");
+    }
+    catch ( const SDK::CustomException& ex )
+    {
+        THROW_EXCEPTION(ex.what());
+    }
+
+}
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 

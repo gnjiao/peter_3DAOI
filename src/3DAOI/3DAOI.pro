@@ -12,7 +12,9 @@ HEADERS += \
     Job/measurelist.hpp\
     App/appsetting.hpp \
     App/capturesetting.hpp \
-    Job/board.hpp
+    Job/board.hpp \
+    App/appstart.hpp \
+    SDK/formatconversion.hpp
 
 SOURCES += main.cpp \
     SDK/customexception.cpp\
@@ -21,7 +23,8 @@ SOURCES += main.cpp \
     Job/measurelist.cpp\
     App/appsetting.cpp \
     App/capturesetting.cpp\
-    Job/board.cpp
+    Job/board.cpp \
+    App/appstart.cpp
 
 
 

@@ -47,10 +47,10 @@ namespace Job
 
     private:
         int m_size {0};
-        MeasureObj* m_pHead = nullptr;
-        MeasureObj* m_pTail = nullptr;
+        MeasureObj* m_pHead {nullptr};
+        MeasureObj* m_pTail {nullptr};
     };
-}//End of Job
+}//End of namespace Job
 
 #endif // MEASURELIST_HPP
 

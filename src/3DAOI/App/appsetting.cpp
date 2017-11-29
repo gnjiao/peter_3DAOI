@@ -50,7 +50,7 @@ void App::AppSetting::readAppSetting(const QString &path)
 
         //加载公司名, 如果不正确的话就写入默认值
         QString name =  configFile.value("CompanyName").toString();
-        if(name == "Sung" || name == "SciJet")
+        if(name != "" )
         {
             this->m_companyName = name.toStdString();
         }
@@ -61,13 +61,13 @@ void App::AppSetting::readAppSetting(const QString &path)
 
         //加载机器类型, 如果不正确的话就写入默认值
         QString type =  configFile.value("MachineName").toString();
-        if ( type.toUpper().toStdString() == VAR_TO_STR(AOI) )
+        if ( type.toUpper().toStdString() == VAR_TO_STR(MACHINE_NAME::AOI) )
         {
-            this->m_companyName = MachineName::AOI;
+            this->m_machineName = MACHINE_NAME::AOI;
         }
-        else if ( type.toUpper().toStdString() == VAR_TO_STR(SPI) )
+        else if ( type.toUpper().toStdString() == VAR_TO_STR(MACHINE_NAME::SPI) )
         {
-            this->m_companyName = MachineName::SPI;
+            this->m_machineName = MACHINE_NAME::SPI;
         }
         else
         {   // 加载机器类型失败,设置为默认机器类型AOI!
@@ -76,13 +76,13 @@ void App::AppSetting::readAppSetting(const QString &path)
 
         //加载主题, 如果不正确的话就写入默认值
         QString theme =  configFile.value("Theme").toString();
-        if ( theme.toUpper().toStdString() == VAR_TO_STR(BLACK) )
+        if ( theme.toUpper().toStdString() == VAR_TO_STR(THEME::BLACK) )
         {
-            this->m_theme = Theme::BLACK;
+            this->m_theme = THEME::BLACK;
         }
-        else if ( theme.toUpper().toStdString() == VAR_TO_STR(WHITE) )
+        else if ( theme.toUpper().toStdString() == VAR_TO_STR(THEME::WHITE) )
         {
-            this->m_theme = Theme::WHITE;
+            this->m_theme = THEME::WHITE;
         }
         else
         {   // 加载主题失败,设置默认主题White!
@@ -91,13 +91,13 @@ void App::AppSetting::readAppSetting(const QString &path)
 
         //加载语言,如果不正确的话就写入默认值
         QString language =  configFile.value("Language").toString();
-        if ( language.toUpper().toStdString() == VAR_TO_STR(CN) )
+        if ( language.toUpper().toStdString() == VAR_TO_STR(LANGUAGE::CN) )
         {
-            this->m_lang = Language::CN;
+            this->m_lang = LANGUAGE::CN;
         }
-        else if ( language.toUpper().toStdString() == VAR_TO_STR(EN) )
+        else if ( language.toUpper().toStdString() == VAR_TO_STR(LANGUAGE::EN) )
         {
-            this->m_lang = Language::EN;
+            this->m_lang = LANGUAGE::EN;
         }
         else
         {   //加载语言失败,设置默认语言EN!
@@ -106,17 +106,17 @@ void App::AppSetting::readAppSetting(const QString &path)
 
         //加载轨道模式,如果不正确的话就写入默认值
         QString mode =  configFile.value("LaneMode").toString();
-        if ( mode.toUpper().toStdString() == VAR_TO_STR(SIMULATOR) )
+        if ( mode.toUpper().toStdString() == VAR_TO_STR(LANE_MODE::SIMULATOR) )
         {
-            this->m_laneMode = LaneMode::SIMULATOR;
+            this->m_laneMode = LANE_MODE::SIMULATOR;
         }
-        else if ( mode.toUpper().toStdString() == VAR_TO_STR(SINGLELANE) )
+        else if ( mode.toUpper().toStdString() == VAR_TO_STR(LaneName::SINGLELANE) )
         {
-            this->m_laneMode = LaneMode::SINGLELANE;
+            this->m_laneMode = LANE_MODE::SINGLELANE;
         }
-        else if ( mode.toUpper().toStdString() == VAR_TO_STR(DUALLANE) )
+        else if ( mode.toUpper().toStdString() == VAR_TO_STR(LaneName::DUALLANE) )
         {
-            this->m_laneMode = LaneMode::DUALLANE;
+            this->m_laneMode = LANE_MODE::DUALLANE;
         }
         else
         {   //加载轨道模式失败,设置默认轨道模式DualLane!
@@ -131,14 +131,24 @@ void App::AppSetting::readAppSetting(const QString &path)
 
 void App::AppSetting::writeAppSetting(const QString &path)
 {
-    QSettings configFile(path, QSettings::IniFormat);
-
-    // 配置文件不存在,创建默认值配置文件
-    configFile.setValue("CompanyName", "SciJet");
-    configFile.setValue("MachineName", "AOI");
-    configFile.setValue("Theme", "white");
-    configFile.setValue("Language", "EN");
-    configFile.setValue("LaneMode", "DualLane");
+    try
+    {
+        QSettings configFile(path, QSettings::IniFormat);
+        if( 1 != QSettings::IniFormat)
+        {
+            THROW_EXCEPTION("Load ini file error!")
+        }
+        // 配置文件不存在,创建默认值配置文件
+        configFile.setValue("CompanyName", "SciJet");
+        configFile.setValue("MachineName", "AOI");
+        configFile.setValue("Theme", "white");
+        configFile.setValue("Language", "EN");
+        configFile.setValue("LaneMode", "DualLane");
+    }
+    catch ( const SDK::CustomException& ex )
+    {
+        THROW_EXCEPTION(ex.what());
+    }
 }
 
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
