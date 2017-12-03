@@ -130,50 +130,50 @@ void InspectionData::readFromDB(const std::string &path)
 
 void InspectionData::writeToDB(const std::string& path)
 {
-//    //>>>----------------------------------------------------------------------------------------------------------
-//    //1.写入版本信息和最后编辑时间
-//    auto v1Path = path;
-//    SqliteDB v1Sqlite;
-//    v1Sqlite.open(v1Path);
+    //>>>----------------------------------------------------------------------------------------------------------
+    //1.写入版本信息和最后编辑时间
+    auto v1Path = path;
+    SqliteDB v1Sqlite;
+    v1Sqlite.open(v1Path);
 
-//    std::string sqlcreate = "CREATE TABLE if not exists Job(Version TEXT,LastEditingTime TEXT);";
-//    v1Sqlite.execute( sqlcreate );
-//    std::string sqlInsert = "INSERT INTO Job(Version,LastEditingTime) VALUES(?,?);";
-//    v1Sqlite.execute( sqlInsert, this->version(), this->editingTime() );
+    std::string sqlcreate = "CREATE TABLE if not exists Job(Version TEXT,LastEditingTime TEXT);";
+    v1Sqlite.execute( sqlcreate );
+    std::string sqlInsert = "INSERT INTO Job(Version,LastEditingTime) VALUES(?,?);";
+    v1Sqlite.execute( sqlInsert, this->version(), this->editingTime() );
 
-//    //>>>----------------------------------------------------------------------------------------------------------
-//    //2.写board表头
-//    sqlcreate = "CREATE TABLE if not exists Board(name TEXT,originalX REAL,originalY REAL,sizeX REAL,sizeY REAL);";
-//    v1Sqlite.execute( sqlcreate );
+    //>>>----------------------------------------------------------------------------------------------------------
+    //2.写board表头
+    sqlcreate = "CREATE TABLE if not exists Board(name TEXT,originalX REAL,originalY REAL,sizeX REAL,sizeY REAL);";
+    v1Sqlite.execute( sqlcreate );
 
-//    sqlInsert = "INSERT INTO Board(name, originalX, originalY, sizeX, sizeY) VALUES(?,?,?,?,?);";
-//    v1Sqlite.execute( sqlInsert,
-//                      this->board().name(),
-//                      this->board().originalX(),
-//                      this->board().originalY(),
-//                      this->board().sizeX(),
-//                      this->board().sizeY() );
+    sqlInsert = "INSERT INTO Board(name, originalX, originalY, sizeX, sizeY) VALUES(?,?,?,?,?);";
+    v1Sqlite.execute( sqlInsert,
+                      this->board().name(),
+                      this->board().originalX(),
+                      this->board().originalY(),
+                      this->board().sizeX(),
+                      this->board().sizeY() );
 
-//    //>>>----------------------------------------------------------------------------------------------------------
-//    //3.写入数据库数据
-//    sqlcreate = "CREATE TABLE if not exists MeasureObjs(name TEXT, xPos REAL, yPos REAL, width REAL, height REAL);";
-//    v1Sqlite.execute( sqlcreate );
+    //>>>----------------------------------------------------------------------------------------------------------
+    //3.写入数据库数据
+    sqlcreate = "CREATE TABLE if not exists MeasureObjs(name TEXT, xPos REAL, yPos REAL, width REAL, height REAL);";
+    v1Sqlite.execute( sqlcreate );
 
-//    sqlInsert = "INSERT INTO MeasureObjs(name, xPos, yPos, width,height) VALUES(?,?,?,?,?);";
-//    Job::MeasuredObj* pTemp = this->board().measuredList().pHead();
-//    const int objsCnt = this->board().measuredList().size();
-//    for (int i = 0; i < objsCnt; ++i)
-//    {
-//        v1Sqlite.execute( sqlInsert,
-//                          pTemp->name(),
-//                          pTemp->body().xPos(),
-//                          pTemp->body().yPos(),
-//                          pTemp->body().width(),
-//                          pTemp->body().height() );
-//        pTemp = pTemp->pNext();
-//    }
-//    pTemp = nullptr;
-//    v1Sqlite.close();
+    sqlInsert = "INSERT INTO MeasureObjs(name, xPos, yPos, width,height) VALUES(?,?,?,?,?);";
+    Job::MeasuredObj* pTemp = this->board().measuredList().pHead();
+    const int objsCnt = this->board().measuredList().size();
+    for (int i = 0; i < objsCnt; ++i)
+    {
+        v1Sqlite.execute( sqlInsert,
+                          pTemp->name(),
+                          pTemp->body().xPos(),
+                          pTemp->body().yPos(),
+                          pTemp->body().width(),
+                          pTemp->body().height() );
+        pTemp = pTemp->pNext();
+    }
+    pTemp = nullptr;
+    v1Sqlite.close();
 }
 
 /*
