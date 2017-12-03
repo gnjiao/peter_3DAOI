@@ -16,7 +16,7 @@ InspectionData::~InspectionData()
 void InspectionData::print()
 {
     std::cout<<std::setw(20)<<std::left<<"board version:"<<m_version<<std::endl
-             <<std::setw(20)<<std::left<<"last editing time:"<<m_lastEditingTime<<std::endl;
+            <<std::setw(20)<<std::left<<"last editing time:"<<m_lastEditingTime<<std::endl;
     m_board.print();
 }
 
@@ -45,87 +45,105 @@ void InspectionData::writeToXml(const QString& path)
 
 void InspectionData::readFromDB(const std::string &path)
 {
-//    SqliteDB sqlite(path);
-//    try
-//    {
-//        auto isOpened = sqlite.isOpened();
-//        if(isOpened)
-//        {
-//            //>>>----------------------------------------------------------------------------------------------------------
-//            //1.读取版本号
-//            std::string Version{"V1"};
-//            std::string selectedString = "select Version from Job";
-//            sqlite.prepare(selectedString);
-//            Version = sqlite.executeScalar<std::string>(selectedString);
+    SqliteDB sqlite(path);
+    try
+    {
+        auto isOpened = sqlite.isOpened();
+        if(isOpened)
+        {
+            //>>>----------------------------------------------------------------------------------------------------------
+            //1.判断是否为V1版本
+            std::string selectedString = "select Version from Job";
+            sqlite.prepare(selectedString);
+            std::string version = sqlite.executeScalar<std::string>(selectedString);
 
-//            bool isConvertToV1 = false;
-//            if( "V2" != Version )
-//            {
-//                if( "V1" == Version )
-//                {
-//                    isConvertToV1 = true;
-//                    std::cout << "读取程序的版本为V1，进行自动的版本转换, 数据库更新为V2" << std::endl;
-//                    //convertFromV1(sqlite);
-//                    return;
-//                }
-//            }
-//            else
-//            {
-//                auto isOpened = sqlite.isOpened();
-//                if(isOpened)
-//                {
-//                    //>>>----------------------------------------------------------------------------------------------------------
-//                    //1.读取版本号
-//                    std::string selectedString = "select Version from Job";
-//                    sqlite.prepare(selectedString);
-//                    Version = sqlite.executeScalar<std::string>(selectedString);
+            if( "V1" == version )
+            {
+                //读取版本号信息
+                this->setVersion(version);
 
-//                    if(Version!="V1")
-//                    {
-//                        throw std::string("读取程序的版本不对，读取中止");
-//                    }
+                selectedString = "select LastEditingTime from Job";
+                sqlite.prepare(selectedString);
+                std::string editTime = sqlite.executeScalar<std::string>(selectedString);
+                this->setEditingTime(editTime);
 
-//                    //>>>----------------------------------------------------------------------------------------------------------
-//                    //2.读取Target表
-//                    selectedString = "select * from Pad";
-//                    bool ret = sqlite.prepare(selectedString);
-//                    ret = sqlite.begin();
+                //读取板子信息
+                selectedString = "select name from Board";
+                sqlite.prepare(selectedString);
+                std::string boadName = sqlite.executeScalar<std::string>(selectedString);
+                this->board().setName(boadName);
 
-//                    while(true)
-//                    {
-//                        sqlite.step();
-//                        if (sqlite.latestErrorCode() == SQLITE_DONE)
-//                        {
-//                            break;
-//                        }
+                selectedString = "select originalX from Board";
+                sqlite.prepare(selectedString);
+                double originX = sqlite.executeScalar<double>(selectedString);
+                this->board().setOriginalX(originX);
 
-//                        //创建具体的对象
-//                        Pad target;
-//                        auto x = sqlite.columnValue(0);
-//                        auto y = sqlite.columnValue(1);
-//                        target.X =  boost::get<int>(x);
-//                        target.Y =  boost::get<int>(y);
-//                        PadVec.push_back(target);
-//                    }
+                selectedString = "select originalY from Board";
+                sqlite.prepare(selectedString);
+                double originY = sqlite.executeScalar<double>(selectedString);
+                this->board().setOriginalY(originY);
 
-//                    sqlite.reset();
-//                    sqlite.close();
-//                }
-//            }
+                selectedString = "select sizeX from Board";
+                sqlite.prepare(selectedString);
+                double sizeX = sqlite.executeScalar<double>(selectedString);
+                this->board().setSizeX(sizeX);
 
-//            sqlite.reset();
-//            sqlite.close();
-//        }
-//    }
-//    catch(std::string& ex)
-//    {
-//        std::cout<<ex.data()<<std::endl;
-//        if(sqlite.isOpened())
-//        {
-//            sqlite.reset();
-//            sqlite.close(); //发生异常了需要特别注意需要关闭数据库
-//        }
-//    }
+                selectedString = "select sizeY from Board";
+                sqlite.prepare(selectedString);
+                double sizeY = sqlite.executeScalar<double>(selectedString);
+                this->board().setSizeY(sizeY);
+
+                //读取Rectangle信息
+                selectedString = "select * from MeasureObjs";
+                bool ret = sqlite.prepare(selectedString);
+                ret = sqlite.begin();
+                Job::MeasuredObj* pMeasureObj = nullptr;
+                while(true)
+                {
+                    sqlite.step();
+                    if (sqlite.latestErrorCode() == SQLITE_DONE)
+                    {
+                        break;
+                    }
+                    //创建具体的对象
+                    pMeasureObj = new Job::MeasuredObj();
+                    auto name = sqlite.columnValue(0);
+                    auto posX = sqlite.columnValue(1);
+                    auto posY = sqlite.columnValue(2);
+                    auto width = sqlite.columnValue(3);
+                    auto height = sqlite.columnValue(4);
+
+                    pMeasureObj->setName(boost::get<std::string>(name));
+                    pMeasureObj->body().setPosX(boost::get<double>(posX));
+                    pMeasureObj->body().setPosY(boost::get<double>(posY));
+                    pMeasureObj->body().setWidth(boost::get<double>(width));
+                    pMeasureObj->body().setHeight(boost::get<double>(height));
+
+                    this->board().measuredList().pushBack(*pMeasureObj);
+                }
+                pMeasureObj = nullptr;
+                sqlite.reset();
+                sqlite.close();
+            }
+            else
+            {
+                throw std::string("读取程序的版本不对，读取中止!");
+            }
+        }
+        else
+        {
+            throw std::string("打开文件失败,读取终止!");
+        }
+    }
+    catch(std::string& ex)
+    {
+        std::cout<<ex.data()<<std::endl;
+        if(sqlite.isOpened())
+        {
+            sqlite.reset();
+            sqlite.close(); //发生异常了需要特别注意需要关闭数据库
+        }
+    }
 }
 
 void InspectionData::writeToDB(const std::string& path)
@@ -159,21 +177,23 @@ void InspectionData::writeToDB(const std::string& path)
     sqlcreate = "CREATE TABLE if not exists MeasureObjs(name TEXT, xPos REAL, yPos REAL, width REAL, height REAL);";
     v1Sqlite.execute( sqlcreate );
 
+    //执行插入语句
     sqlInsert = "INSERT INTO MeasureObjs(name, xPos, yPos, width,height) VALUES(?,?,?,?,?);";
+    v1Sqlite.prepare(sqlInsert);
+    v1Sqlite.begin();
     Job::MeasuredObj* pTemp = this->board().measuredList().pHead();
-    const int objsCnt = this->board().measuredList().size();
-    for (int i = 0; i < objsCnt; ++i)
+    while( nullptr != pTemp )
     {
-        v1Sqlite.execute( sqlInsert,
-                          pTemp->name(),
-                          pTemp->body().xPos(),
-                          pTemp->body().yPos(),
-                          pTemp->body().width(),
-                          pTemp->body().height() );
-        pTemp = pTemp->pNext();
+        std::string str = pTemp->name();
+        v1Sqlite.executeWithParms( str.data(),
+                                   pTemp->body().xPos(),
+                                   pTemp->body().yPos(),
+                                   pTemp->body().width(),
+                                   pTemp->body().height() );
+        pTemp = pTemp->pNext(); //将临时指针指向链表中下一个元素
     }
-    pTemp = nullptr;
-    v1Sqlite.close();
+    v1Sqlite.commit();          //将数据列表中的数据一次性写入数据库
+    v1Sqlite.close();           //关闭数据库
 }
 
 /*

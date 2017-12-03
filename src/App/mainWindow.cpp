@@ -66,9 +66,9 @@ void MainWindow::scanJobFolder(const QString& path)
         QString tempPath {path};
         QString dbPath = tempPath.append("iPhoneV1");
         m_inspectionData.writeToDB(dbPath.toStdString());
-        tempPath = path;
-        QString xmlPath = tempPath.append("iPhoneV1.xml");
-        m_inspectionData.writeToXml(xmlPath);
+//        tempPath = path;
+//        QString xmlPath = tempPath.append("iPhoneV1.xml");
+//        m_inspectionData.writeToXml(xmlPath);
     }
     else
     {
@@ -95,10 +95,10 @@ void MainWindow::scanJobFolder(const QString& path)
         while( index > list.size() || index <= 0);
         //>>>-------------------------------------------------------------------------------------------------------------------------------------
         // step3:读取用户选择的文件,并输出为xml文件
-        QString file = list.at(index-1).filePath();
-        m_inspectionData.readFromDB(file.toStdString());
+        QString dbPath = list.at(index-1).filePath();
+        m_inspectionData.readFromDB(dbPath.toStdString());
         m_inspectionData.print();
-        QString xmlPath = file.append(".xml");
+        QString xmlPath = dbPath.append(".xml");
         m_inspectionData.writeToXml(xmlPath);
     }
 }
