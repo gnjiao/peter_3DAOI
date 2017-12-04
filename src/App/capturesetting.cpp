@@ -33,7 +33,7 @@ void CaptureSetting::loadCaptureSetting(const QString& path)
     }
     catch( const SDK::CustomException& ex )
     {
-        std::cout << ex.what() << std::endl;
+        THROW_EXCEPTION(ex.what());
     }
 }
 
@@ -42,6 +42,11 @@ void CaptureSetting::readCaptureSetting(const QString& path)
     try
     {
         QSettings configFile(path, QSettings::IniFormat);
+        if( 1 != QSettings::IniFormat)
+        {
+            //加载配置文件失败,抛出异常.
+            THROW_EXCEPTION("Load ini file error!")
+        }
 
         // 加载图像位数
         QString imgBit =  configFile.value("ImageBits").toString();
@@ -55,6 +60,7 @@ void CaptureSetting::readCaptureSetting(const QString& path)
         }
         else
         {
+            //图像位数不是8位或16位,抛出异常.
             THROW_EXCEPTION("Capture setting error!");
         }
         // 加载图像高度
@@ -65,6 +71,7 @@ void CaptureSetting::readCaptureSetting(const QString& path)
         if( this->m_imageWidth != imgWidth ||
             this->m_imageHeight != imgHeight )
         {
+            //图像面阵宽度和高度不正确,抛出异常.
             THROW_EXCEPTION("Capture setting error!");
         }
     }
@@ -74,7 +81,6 @@ void CaptureSetting::readCaptureSetting(const QString& path)
     }
 }
 
-
 void writeCaptureSetting(const QString& path)
 {
     try
@@ -82,12 +88,13 @@ void writeCaptureSetting(const QString& path)
         QSettings configFile(path, QSettings::IniFormat);
         if( 1 != QSettings::IniFormat)
         {
+            //加载配置文件错误,抛出异常.
             THROW_EXCEPTION("Load ini file error!")
         }
         // 配置文件不存在,创建默认值配置文件
         configFile.setValue("ImageWidth", "100");
         configFile.setValue("ImageHeight", "100");
-        configFile.setValue("ImageBits", "8");
+        configFile.setValue("ImageBits", "BIT8");
     }
     catch ( const SDK::CustomException& ex )
     {

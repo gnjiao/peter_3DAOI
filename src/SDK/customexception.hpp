@@ -13,7 +13,7 @@
      message <<"File: "<<__FILE__<<"\n"\
              <<"Line:"<<__LINE__<<"\n"\
              <<"Func:"<<__FUNCTION__<<"\n"\
-             <<"Detail:"<< exMsg <<"\n";\
+             <<"Detail:\n"<< exMsg <<"\n";\
      std::string msg = message.str();\
      throw  SDK::CustomException(msg);\
 }

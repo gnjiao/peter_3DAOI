@@ -11,14 +11,13 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
-    Job::MeasuredObj * pTmpObj = nullptr;
-    while ( nullptr != this->m_inspectionData.board().measuredList().pHead() )
+    Job::MeasuredObj * pTmpObj = this->m_inspectionData.board().measuredList().pHead();
+    while ( nullptr !=  pTmpObj )
     {
         pTmpObj = this->m_inspectionData.board().measuredList().pHead()->pNext();
         delete this->m_inspectionData.board().measuredList().pHead();
         this->m_inspectionData.board().measuredList().setHead(pTmpObj);
     }
-    pTmpObj = nullptr;
 }
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -44,6 +43,7 @@ void MainWindow::scanJobFolder(const QString& path)
         //文件夹不存在，判断是否创建成功，不成功则抛出异常
         if( !isCreatedPath )
         {
+            //创建配置文件失败,抛出异常.
             THROW_EXCEPTION("Path is not existed and create path error!");
         }
     }
@@ -61,14 +61,12 @@ void MainWindow::scanJobFolder(const QString& path)
         int chipCnt {20};
         int icCnt {30};
         generateObjsRandomly(chipCnt,icCnt);
-        m_inspectionData.print();
 
-        QString tempPath {path};
-        QString dbPath = tempPath.append("iPhoneV1");
+        QString dbPath {path};
+        dbPath = dbPath.append("iPhoneV1");
         m_inspectionData.writeToDB(dbPath.toStdString());
-//        tempPath = path;
-//        QString xmlPath = tempPath.append("iPhoneV1.xml");
-//        m_inspectionData.writeToXml(xmlPath);
+        //在屏幕上打印程式信息
+        m_inspectionData.print();
     }
     else
     {
@@ -94,12 +92,14 @@ void MainWindow::scanJobFolder(const QString& path)
         }
         while( index > list.size() || index <= 0);
         //>>>-------------------------------------------------------------------------------------------------------------------------------------
-        // step3:读取用户选择的文件,并输出为xml文件
+        // step3:读取用户选择的文件
         QString dbPath = list.at(index-1).filePath();
         m_inspectionData.readFromDB(dbPath.toStdString());
-        m_inspectionData.print();
+        //输出到xml文件中
         QString xmlPath = dbPath.append(".xml");
         m_inspectionData.writeToXml(xmlPath);
+        //打印到屏幕上
+        m_inspectionData.print();
     }
 }
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

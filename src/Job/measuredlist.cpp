@@ -27,20 +27,21 @@ void MeasuredList::clear()
         this->m_pTail = nullptr;
     }
 }
+
 void MeasuredList::print()
 {
-    const int cnt = size();
-    //从链表头到链表尾
+    //链表不为空则打印链表总的信息
     if ( !isEmpty() )
     {
         std::cout << std::setw(10) << std::left << "Name"
-                  << std::setw(10) << std::left << "x"
-                  << std::setw(10) << std::left << "y"
+                  << std::setw(10) << std::left << "xPos"
+                  << std::setw(10) << std::left << "yPos"
                   << std::setw(10) << std::left << "width"
                   << std::setw(10) << std::left << "height"
                   << std::endl;
 
         MeasuredObj* pTemp = this->m_pHead;
+        const int cnt = size();
         for ( int i = 0;i < cnt; ++i )
         {
             std::cout << std::setw(10) << std::left<< pTemp->name()
