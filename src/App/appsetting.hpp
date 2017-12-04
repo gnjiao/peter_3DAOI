@@ -14,22 +14,22 @@ namespace App
 {
     //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //enum
-    enum class MACHINE_NAME
+    enum class MACHINE_NAME//机器名称,包括AOI和SPI两种
     {
         AOI,
         SPI
     };
-    enum class THEME
+    enum class THEME//界面主题,包括黑色和白色两个主题
     {
         BLACK,
         WHITE
     };
-    enum class LANGUAGE
+    enum class LANGUAGE//语言种类,包括英文和中文两种语言
     {
         EN,
         CN
     };
-    enum class LANE_MODE
+    enum class LANE_MODE//机器种类,包括模拟器、单轨机和双轨机
     {
         SIMULATOR,
         SINGLELANE,

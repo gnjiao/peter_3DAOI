@@ -8,7 +8,6 @@ MeasuredObj::MeasuredObj()
 {
 
 }
-
 MeasuredObj::~MeasuredObj()
 {
 

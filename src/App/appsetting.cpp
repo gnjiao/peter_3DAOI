@@ -43,10 +43,11 @@ void AppSetting::readAppSetting(const QString& path)
         QSettings configFile(path, QSettings::IniFormat);
         if( 1 != QSettings::IniFormat)
         {
+            //加载配置文件失败,抛出异常.
             THROW_EXCEPTION("Load ini file error!")
         }
 
-        //加载公司名, 如果不正确的话就写入默认值
+        //加载公司名, 不正确就写入默认值
         QString name =  configFile.value("CompanyName").toString();
         if(name != "" )
         {
@@ -57,7 +58,7 @@ void AppSetting::readAppSetting(const QString& path)
             configFile.setValue("CompanyName", "SciJet");
         }
 
-        //加载机器类型, 如果不正确的话就写入默认值
+        //加载机器名称, 不正确就写入默认值
         QString type =  configFile.value("MachineName").toString();
         if ( type.toUpper().toStdString() == VAR_TO_STR(MACHINE_NAME::AOI) )
         {
@@ -72,7 +73,7 @@ void AppSetting::readAppSetting(const QString& path)
             configFile.setValue("MachineName","AOI");
         }
 
-        //加载主题, 如果不正确的话就写入默认值
+        //加载主题, 不正确就写入默认值
         QString theme =  configFile.value("Theme").toString();
         if ( theme.toUpper().toStdString() == VAR_TO_STR(THEME::BLACK) )
         {
@@ -87,7 +88,7 @@ void AppSetting::readAppSetting(const QString& path)
             configFile.setValue("Theme","white");
         }
 
-        //加载语言,如果不正确的话就写入默认值
+        //加载语言,不正确就写入默认值
         QString language =  configFile.value("Language").toString();
         if ( language.toUpper().toStdString() == VAR_TO_STR(LANGUAGE::CN) )
         {
@@ -102,7 +103,7 @@ void AppSetting::readAppSetting(const QString& path)
             configFile.setValue("Language", "EN");
         }
 
-        //加载轨道模式,如果不正确的话就写入默认值
+        //加载机器类型,不正确就写入默认值
         QString mode =  configFile.value("LaneMode").toString();
         if ( mode.toUpper().toStdString() == VAR_TO_STR(LANE_MODE::SIMULATOR) )
         {
