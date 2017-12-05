@@ -14,7 +14,7 @@ namespace App
 {
     //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //enum
-    enum class IMAGE_BIT //图像位数,包括8位和16位
+    enum class ImageBit //图像位数,包括8位和16位
     {
         BIT8,
         BIT16
@@ -79,7 +79,7 @@ namespace App
     private:
         int m_imageWidth {100};
         int m_imageHeight {100};
-        IMAGE_BIT m_imageBit {IMAGE_BIT::BIT8};
+        ImageBit m_imageBit {ImageBit::BIT8};
 
 
     };

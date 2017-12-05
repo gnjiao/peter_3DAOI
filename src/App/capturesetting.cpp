@@ -50,13 +50,13 @@ void CaptureSetting::readCaptureSetting(const QString& path)
 
         // 加载图像位数
         QString imgBit =  configFile.value("ImageBits").toString();
-        if ( imgBit.toUpper().toStdString() == VAR_TO_STR(IMAGE_BIT::BIT8) )
+        if ( imgBit.toUpper().toStdString() == VAR_TO_STR(ImageBit::BIT8) )
         {
-            this->m_imageBit = IMAGE_BIT::BIT8;
+            this->m_imageBit = ImageBit::BIT8;
         }
-        else if ( imgBit.toUpper().toStdString() == VAR_TO_STR(IMAGE_BIT::BIT16) )
+        else if ( imgBit.toUpper().toStdString() == VAR_TO_STR(ImageBit::BIT16) )
         {
-            this->m_imageBit = IMAGE_BIT::BIT16;
+            this->m_imageBit = ImageBit::BIT16;
         }
         else
         {
