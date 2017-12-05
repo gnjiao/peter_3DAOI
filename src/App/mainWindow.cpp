@@ -1,6 +1,8 @@
 #include "mainWindow.hpp"
 
 using namespace App;
+using namespace Job;
+using namespace SDK;
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //constructor & destructor
@@ -11,7 +13,7 @@ MainWindow::MainWindow()
 
 MainWindow::~MainWindow()
 {
-    Job::MeasuredObj * pTmpObj = this->m_inspectionData.board().measuredList().pHead();
+    MeasuredObj * pTmpObj = this->m_inspectionData.board().measuredList().pHead();
     while ( nullptr !=  pTmpObj )
     {
         pTmpObj = this->m_inspectionData.board().measuredList().pHead()->pNext();
@@ -64,9 +66,7 @@ void MainWindow::scanJobFolder(const QString& path)
 
         QString dbPath {path};
         dbPath = dbPath.append("iPhoneV2");
-        m_inspectionData.writeToDB(dbPath.toStdString());
-        //在屏幕上打印程式信息
-        m_inspectionData.print();
+        m_inspectionData.writeToDB(dbPath);
     }
     else
     {
@@ -94,12 +94,11 @@ void MainWindow::scanJobFolder(const QString& path)
         //>>>-------------------------------------------------------------------------------------------------------------------------------------
         // step3:读取用户选择的文件
         QString dbPath = list.at(index-1).filePath();
-        m_inspectionData.readFromDB(dbPath.toStdString());
+        m_inspectionData.readFromDB(dbPath);
         //输出到xml文件中
         QString xmlPath = dbPath.append(".xml");
-        m_inspectionData.writeToXml(xmlPath.toStdString());
-        //打印到屏幕上
-        m_inspectionData.print();
+        m_inspectionData.writeToXml(xmlPath);
+
     }
 }
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -110,25 +109,30 @@ void MainWindow::scanJobFolder(const QString& path)
 void MainWindow::generateObjsRandomly( int chipCnt, int icCnt )
 {
 
-    double minPosX {25};
-    double maxPosX {175};
-    double minPosY {25};
-    double maxPosY {175};
-    double minAngle {0};
-    double maxAngle {90};
-    double minWidth {100};
-    double maxWidth {150};
-    double minHeight {100};
-    double maxHeight {150};
+    int minPosX {25};
+    int maxPosX {175};
+    int minPosY {25};
+    int maxPosY {175};
+    int minAngle {0};
+    int maxAngle {90};
+    int minWidth {100};
+    int maxWidth {150};
+    int minHeight {100};
+    int maxHeight {150};
+    int precision {2};
 
-    //>>>-------------------------------------------------------------------------------------------------------------------------------------
-    //1.默认的版本和当前编辑时间
-    auto time = std::time(nullptr);
+    //>>>--------------------------------------------------------------------------------
+    // 1.默认的版本和当前编辑时间
     m_inspectionData.setVersion("V2");
-    m_inspectionData.setEditingTime(asctime(localtime (&time)));
+    auto currentTime = std::time(nullptr);
+    auto formatTime = *std::localtime(&currentTime);
 
-    //>>>-------------------------------------------------------------------------------------------------------------------------------------
-    //2.默认的job程式名,原点位置,尺寸大小
+    std::ostringstream timeStream;
+    timeStream << std::put_time(&formatTime, "%Y-%m-%d %H:%M:%S");
+    m_inspectionData.setEditingTime(timeStream.str());
+
+    //>>>--------------------------------------------------------------------------------
+    // 2.默认的job程式名,原点位置,尺寸大小
     this->m_inspectionData.board().setName("iPhone");
     this->m_inspectionData.board().setOriginalX(0.00);
     this->m_inspectionData.board().setOriginalY(0.00);
@@ -139,10 +143,10 @@ void MainWindow::generateObjsRandomly( int chipCnt, int icCnt )
     //3.生成随机数据
 
     std::stringstream rectNameSteam;
-    Job::MeasuredObj* pMeasureObj = nullptr;
+    MeasuredObj* pMeasureObj = nullptr;
     for ( int i = 1; i <= chipCnt+icCnt; ++i )
     {
-        pMeasureObj = new Job::MeasuredObj();
+        pMeasureObj = new MeasuredObj();
         if ( i <= chipCnt )
         {
             rectNameSteam<<"chip_"<<std::setfill('0')<<std::setw(3)<<i;
@@ -152,11 +156,11 @@ void MainWindow::generateObjsRandomly( int chipCnt, int icCnt )
             rectNameSteam<<"ic_"<<std::setfill('0')<<std::setw(3)<<i-chipCnt;
         }
         pMeasureObj->setName(rectNameSteam.str());
-        pMeasureObj->body().setPosX(RANDOM_DIGIT(minPosX,maxPosX));
-        pMeasureObj->body().setPosY(RANDOM_DIGIT(minPosY,maxPosY));
-        pMeasureObj->body().setAngle(RANDOM_DIGIT(minAngle,maxAngle));
-        pMeasureObj->body().setWidth(RANDOM_DIGIT(minWidth,maxWidth));
-        pMeasureObj->body().setHeight(RANDOM_DIGIT(minHeight,maxHeight));
+        pMeasureObj->body().setPosX(RandomDigit::randomDigit(precision,minPosX,maxPosX));
+        pMeasureObj->body().setPosY(RandomDigit::randomDigit(precision,minPosY,maxPosY));
+        pMeasureObj->body().setAngle(RandomDigit::randomDigit(precision,minAngle,maxAngle));
+        pMeasureObj->body().setWidth(RandomDigit::randomDigit(precision,minWidth,maxWidth));
+        pMeasureObj->body().setHeight(RandomDigit::randomDigit(precision,minHeight,maxHeight));
 
         this->m_inspectionData.board().measuredList().pushBack(*pMeasureObj);
         rectNameSteam.str("");

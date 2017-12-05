@@ -3,10 +3,12 @@
 using namespace Job;
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//constructor & destructor function
+// constructor & destructor function
 MeasuredList::MeasuredList()
 {
-
+    this->m_size = 0;
+    this->m_pHead = nullptr;
+    this->m_pTail = nullptr;
 }
 
 MeasuredList::~MeasuredList()
@@ -17,7 +19,7 @@ MeasuredList::~MeasuredList()
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//clear & print function
+// clear & print function
 void MeasuredList::clear()
 {
     if ( !isEmpty() )
@@ -30,7 +32,7 @@ void MeasuredList::clear()
 
 void MeasuredList::print()
 {
-    //链表不为空则打印链表总的信息
+    // 链表不为空则打印链表总的信息
     if ( !isEmpty() )
     {
         std::cout << std::setw(10) << std::left << "Name"
@@ -56,7 +58,7 @@ void MeasuredList::print()
         }
         pTemp = nullptr;
     }
-    else    //链表为空
+    else    // 链表为空
     {
         std::cout << "the linked list is empty" << std::endl;
     }
@@ -65,7 +67,7 @@ void MeasuredList::print()
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//push & pull function
+// push & pull function
 void MeasuredList::pushBack( MeasuredObj& measureObj)
 {
     if(isEmpty())

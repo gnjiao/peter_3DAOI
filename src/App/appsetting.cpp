@@ -6,7 +6,11 @@ using namespace SDK;
 // constructor & destructor
 AppSetting::AppSetting()
 {
-
+    this->m_companyName = "SciJet";
+    this->m_machineName = MachineName::AOI;
+    this->m_theme = Theme::WHITE;
+    this->m_lang = Language::EN;
+    this->m_laneMode = LaneMode::DUAL_LANE;
 }
 
 AppSetting::~AppSetting()
@@ -23,11 +27,11 @@ void AppSetting::loadAppSetting(const QString& path)
     try
     {
         if( !QFile::exists(path) )
-        {   //路径不存在, 新建一个配置文件, 参数使用默认值
+        {   // 路径不存在, 新建一个配置文件, 参数使用默认值
             writeAppSetting(path);
         }
         else
-        {   //路径存在,读取配置文件
+        {   // 路径存在,读取配置文件
             readAppSetting(path);
         }
     }
@@ -49,7 +53,7 @@ void AppSetting::readAppSetting(const QString& path)
         }
 
         //>>>--------------------------------------------------------------------------------
-        //1.加载公司名, 不正确就写入默认值
+        // 1.加载公司名, 不正确就写入默认值
         QString name =  configFile.value("CompanyName").toString();
         if(name != "" )
         {
@@ -60,7 +64,7 @@ void AppSetting::readAppSetting(const QString& path)
             configFile.setValue("CompanyName",QString::fromStdString(m_companyName));
         }
         //>>>--------------------------------------------------------------------------------
-        //2.加载机器名称, 不正确就写入默认值
+        // 2.加载机器名称, 不正确就写入默认值
         QString type =  configFile.value("MachineName").toString();
         if ( type.toUpper().toStdString() == VAR_TO_STR(MachineName::AOI) )
         {
@@ -76,7 +80,7 @@ void AppSetting::readAppSetting(const QString& path)
                                  QString::fromStdString(VAR_TO_STR(MachineName::AOI)) );
         }
         //>>>--------------------------------------------------------------------------------
-        //3.加载主题, 不正确就写入默认值
+        // 3.加载主题, 不正确就写入默认值
         QString theme =  configFile.value("Theme").toString();
         if ( theme.toUpper().toStdString() == VAR_TO_STR(Theme::BLACK) )
         {
@@ -108,7 +112,7 @@ void AppSetting::readAppSetting(const QString& path)
                                   QString::fromStdString(VAR_TO_STR(Language::EN)) );
         }
         //>>>--------------------------------------------------------------------------------
-        //5.加载机器类型,不正确就写入默认值
+        // 5.加载机器类型,不正确就写入默认值
         QString mode =  configFile.value("LaneMode").toString();
         if ( mode.toUpper().toStdString() == VAR_TO_STR(LaneMode::SIMULATOR) )
         {

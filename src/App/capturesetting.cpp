@@ -6,7 +6,9 @@ using namespace App;
 // constructor & destructor
 CaptureSetting::CaptureSetting()
 {
-
+    this->m_imageWidth =3072;
+    this->m_imageHeight = 4096;
+    this->m_imageBit = ImageBit::BIT8;
 }
 
 CaptureSetting::~CaptureSetting()
@@ -44,11 +46,12 @@ void CaptureSetting::readCaptureSetting(const QString& path)
         QSettings configFile(path, QSettings::IniFormat);
         if( 1 != QSettings::IniFormat)
         {
-            //加载配置文件失败,抛出异常.
+            // 加载配置文件失败,抛出异常.
             THROW_EXCEPTION("Load ini file error!")
         }
 
-        // 加载图像位数
+        //>>>--------------------------------------------------------------------------------
+        // 1.加载图像位数
         QString imgBit =  configFile.value("ImageBits").toString();
         if ( imgBit.toUpper().toStdString() == VAR_TO_STR(ImageBit::BIT8) )
         {
@@ -60,18 +63,22 @@ void CaptureSetting::readCaptureSetting(const QString& path)
         }
         else
         {
-            //图像位数不是8位或16位,抛出异常.
+            // 图像位数不是8位或16位,抛出异常.
             THROW_EXCEPTION("Capture setting error!");
         }
-        // 加载图像高度
+
+        //>>>--------------------------------------------------------------------------------
+        // 2.加载图像面阵高度
         int imgWidth =  configFile.value("ImageWidth").toInt();
-        // 加载图像宽度
+
+        //>>>--------------------------------------------------------------------------------
+        // 3.加载图像面阵宽度
         int imgHeight = configFile.value("ImageHeight").toInt();
 
         if( this->m_imageWidth != imgWidth ||
             this->m_imageHeight != imgHeight )
         {
-            //图像面阵宽度和高度不正确,抛出异常.
+            // 图像面阵宽度或高度不正确,抛出异常.
             THROW_EXCEPTION("Capture setting error!");
         }
     }
@@ -81,27 +88,6 @@ void CaptureSetting::readCaptureSetting(const QString& path)
     }
 }
 
-void writeCaptureSetting(const QString& path)
-{
-    try
-    {
-        QSettings configFile(path, QSettings::IniFormat);
-        if( 1 != QSettings::IniFormat)
-        {
-            //加载配置文件错误,抛出异常.
-            THROW_EXCEPTION("Load ini file error!")
-        }
-        // 配置文件不存在,创建默认值配置文件
-        configFile.setValue("ImageWidth", "100");
-        configFile.setValue("ImageHeight", "100");
-        configFile.setValue("ImageBits", "BIT8");
-    }
-    catch ( const SDK::CustomException& ex )
-    {
-        THROW_EXCEPTION(ex.what());
-    }
-
-}
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
