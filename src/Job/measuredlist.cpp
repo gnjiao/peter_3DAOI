@@ -36,6 +36,7 @@ void MeasuredList::print()
         std::cout << std::setw(10) << std::left << "Name"
                   << std::setw(10) << std::left << "xPos"
                   << std::setw(10) << std::left << "yPos"
+                  << std::setw(10) << std::left << "angle"
                   << std::setw(10) << std::left << "width"
                   << std::setw(10) << std::left << "height"
                   << std::endl;
@@ -44,21 +45,21 @@ void MeasuredList::print()
         const int cnt = size();
         for ( int i = 0;i < cnt; ++i )
         {
-            std::cout << std::setw(10) << std::left<< pTemp->name()
-                      << std::setw(10) << std::left<< pTemp->body().xPos()
-                      << std::setw(10) << std::left<< pTemp->body().yPos()
-                      << std::setw(10) << std::left<< pTemp->body().width()
-                      << std::setw(10) << std::left<< pTemp->body().height()
+            std::cout << std::setw(10) << std::left << pTemp->name()
+                      << std::setw(10) << std::left << pTemp->body().xPos()
+                      << std::setw(10) << std::left << pTemp->body().yPos()
+                      << std::setw(10) << std::left << pTemp->body().angle()
+                      << std::setw(10) << std::left << pTemp->body().width()
+                      << std::setw(10) << std::left << pTemp->body().height()
                       << std::endl;
             pTemp = pTemp->pNext();
         }
         pTemp = nullptr;
     }
-    else
+    else    //链表为空
     {
         std::cout << "the linked list is empty" << std::endl;
     }
-    //链表为空
 }
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

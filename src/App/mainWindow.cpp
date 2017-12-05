@@ -63,7 +63,7 @@ void MainWindow::scanJobFolder(const QString& path)
         generateObjsRandomly(chipCnt,icCnt);
 
         QString dbPath {path};
-        dbPath = dbPath.append("iPhoneV1");
+        dbPath = dbPath.append("iPhoneV2");
         m_inspectionData.writeToDB(dbPath.toStdString());
         //在屏幕上打印程式信息
         m_inspectionData.print();
@@ -97,7 +97,7 @@ void MainWindow::scanJobFolder(const QString& path)
         m_inspectionData.readFromDB(dbPath.toStdString());
         //输出到xml文件中
         QString xmlPath = dbPath.append(".xml");
-        m_inspectionData.writeToXml(xmlPath);
+        m_inspectionData.writeToXml(xmlPath.toStdString());
         //打印到屏幕上
         m_inspectionData.print();
     }
@@ -110,24 +110,26 @@ void MainWindow::scanJobFolder(const QString& path)
 void MainWindow::generateObjsRandomly( int chipCnt, int icCnt )
 {
 
-    double minPosX {0};
-    double maxPosX {10};
-    double minPosY {0};
-    double maxPosY {10};
-    double minWidth {90};
-    double maxWidth {110};
-    double minHeight {90};
-    double maxHeight {110};
+    double minPosX {25};
+    double maxPosX {175};
+    double minPosY {25};
+    double maxPosY {175};
+    double minAngle {0};
+    double maxAngle {90};
+    double minWidth {100};
+    double maxWidth {150};
+    double minHeight {100};
+    double maxHeight {150};
 
     //>>>-------------------------------------------------------------------------------------------------------------------------------------
     //1.默认的版本和当前编辑时间
     auto time = std::time(nullptr);
-    m_inspectionData.setVersion("V1");
+    m_inspectionData.setVersion("V2");
     m_inspectionData.setEditingTime(asctime(localtime (&time)));
 
     //>>>-------------------------------------------------------------------------------------------------------------------------------------
     //2.默认的job程式名,原点位置,尺寸大小
-    this->m_inspectionData.board().setName("iPhoneV1");
+    this->m_inspectionData.board().setName("iPhone");
     this->m_inspectionData.board().setOriginalX(0.00);
     this->m_inspectionData.board().setOriginalY(0.00);
     this->m_inspectionData.board().setSizeX(200.00);
@@ -152,6 +154,7 @@ void MainWindow::generateObjsRandomly( int chipCnt, int icCnt )
         pMeasureObj->setName(rectNameSteam.str());
         pMeasureObj->body().setPosX(RANDOM_DIGIT(minPosX,maxPosX));
         pMeasureObj->body().setPosY(RANDOM_DIGIT(minPosY,maxPosY));
+        pMeasureObj->body().setAngle(RANDOM_DIGIT(minAngle,maxAngle));
         pMeasureObj->body().setWidth(RANDOM_DIGIT(minWidth,maxWidth));
         pMeasureObj->body().setHeight(RANDOM_DIGIT(minHeight,maxHeight));
 

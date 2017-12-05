@@ -7,6 +7,7 @@
 
 #include <QDomDocument>
 #include <QTextStream>
+#include <QString>
 #include <QFile>
 
 #include "../DB/sqlitedb.hpp"
@@ -62,7 +63,7 @@ namespace Job
          *
          * @param path
          */
-        void writeToXml(const QString& path);
+        void writeToXml(const std::string& path);
         /**
          * @brief print
          *      打印检测程式文件的版本和最后编辑时间的信息

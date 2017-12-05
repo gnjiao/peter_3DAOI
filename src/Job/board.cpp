@@ -39,6 +39,7 @@ void Board::writeToXml(QDomDocument doc, QDomElement job)
         QDomElement element = doc.createElement(QString::fromStdString(name));
         element.setAttribute("x",QString::number(pTemp->body().xPos()));
         element.setAttribute("y",QString::number(pTemp->body().yPos()));
+        element.setAttribute("angle",QString::number(pTemp->body().angle()));
         element.setAttribute("width",QString::number(pTemp->body().width()));
         element.setAttribute("height",QString::number(pTemp->body().height()));
         board.appendChild(element);

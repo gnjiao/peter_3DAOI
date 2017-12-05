@@ -19,19 +19,19 @@ InspectionData::~InspectionData()
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //write & read & print function
-void InspectionData::writeToXml(const QString& path)
+void InspectionData::writeToXml(const std::string &path)
 {
     QDomDocument doc;
     // 根元素 <Blogs>
     QDomElement job = doc.createElement("Job");
     job.setAttribute("LastEditTime",this->editingTime().c_str());  // 属性
-    job.   setAttribute("Version",this->version().c_str());
+    job.setAttribute("Version",this->version().c_str());
     doc.appendChild(job);
 
     this->board().writeToXml(doc,job);
 
     // 保存 XML 文件
-    QString strFile(path);
+    QString strFile(QString::fromStdString(path));
     QFile file(strFile);
     // 只写模式打开文件
     if (file.open(QFile::WriteOnly | QFile::Text))
@@ -69,8 +69,12 @@ void InspectionData::readFromDB(const std::string &path)
              else if ( "V1" == Version )
             {
                 std::cout << "Convert V1 to V2!" << std::endl;
+                //将V1版本的程式文件信息读取到内存中
                 convertFromV1(sqlite);
-//                return;
+                //将读取的V1版本的程式文件导出为V2版本的程式文件
+                auto v2Path = path;
+                v2Path += "ToV2";
+                writeToDB(v2Path);
             }
             else
             {
@@ -120,7 +124,7 @@ void InspectionData::writeToDB(const std::string& path)
     v2Sqlite.execute( sqlcreate );
 
     //执行插入语句
-    sqlInsert = "INSERT INTO MeasureObjs(name, xPos, angle, yPos, width,height) VALUES(?,?,?,?,?,?);";
+    sqlInsert = "INSERT INTO MeasureObjs(name, xPos, yPos, angle, width,height) VALUES(?,?,?,?,?,?);";
     v2Sqlite.prepare(sqlInsert);
     v2Sqlite.begin();
     Job::MeasuredObj* pTemp = this->board().measuredList().pHead();
@@ -238,22 +242,10 @@ void InspectionData::convertFromV1(SqliteDB& sqlite)
     try
     {
         //>>>-------------------------------------------------------------------------------------------------------------------------------------
-        //1.读取Job表
-
-        //删除原来的Job表
-        std::string deleteSql = "DROP TABLE Job";
-        sqlite.execute(deleteSql);
-
-        //创建新的Job表
+        //1.创建新的Job表
         auto time = std::time(nullptr);
         this->setVersion("V2");
         this->setEditingTime(asctime(localtime (&time)));
-
-        //插入版本,最近一次的编辑时间信息
-        std::string sqlcreate = "CREATE TABLE if not exists Job(Version TEXT,LastEditingTime TEXT);";
-        sqlite.execute( sqlcreate );
-        std::string sqlInsert = "INSERT INTO Job(Version,LastEditingTime) VALUES(?,?);";
-        sqlite.execute( sqlInsert, this->version(), this->editingTime() );
 
         //>>>-------------------------------------------------------------------------------------------------------------------------------------
         //2.读取Board表
@@ -308,34 +300,13 @@ void InspectionData::convertFromV1(SqliteDB& sqlite)
             pMeasureObj->setName(boost::get<std::string>(name));
             pMeasureObj->body().setPosX(boost::get<double>(posX));
             pMeasureObj->body().setPosY(boost::get<double>(posY));
+            pMeasureObj->body().setAngle(0);
             pMeasureObj->body().setWidth(boost::get<double>(width));
             pMeasureObj->body().setHeight(boost::get<double>(height));
 
             this->board().measuredList().pushBack(*pMeasureObj);
         }
         pMeasureObj = nullptr;
-        //删除V1版本的MeasureObjs表
-        deleteSql = "DROP TABLE MeasureObjs";
-        sqlite.execute(deleteSql);
-        //创建新的MeasureObjs表
-        sqlcreate = "CREATE TABLE if not exists MeasureObjs(name TEXT, xPos REAL, yPos REAL, angle REAL, width REAL, height REAL);";
-        sqlite.execute( sqlcreate );
-        //执行插入语句
-        sqlInsert = "INSERT INTO MeasureObjs(name, xPos, angle, yPos, width,height) VALUES(?,?,?,?,?,?);";
-        sqlite.prepare(sqlInsert);
-        sqlite.begin();
-        Job::MeasuredObj* pTemp = this->board().measuredList().pHead();
-        while( nullptr != pTemp )
-        {
-            std::string str = pTemp->name();
-            sqlite.executeWithParms( str.data(),
-                                     pTemp->body().xPos(),
-                                     pTemp->body().yPos(),
-                                     pTemp->body().angle(),
-                                     pTemp->body().width(),
-                                     pTemp->body().height() );
-            pTemp = pTemp->pNext(); //将临时指针指向链表中下一个元素
-        }
         sqlite.commit();          //将数据列表中的数据一次性写入数据库
         sqlite.close();
     }
