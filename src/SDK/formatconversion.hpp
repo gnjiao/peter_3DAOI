@@ -3,6 +3,7 @@
 
 namespace SDK
 {
+    //将变量中":"后面的字段截取为string类型的字符串
     #define VAR_TO_STR(var)\
         ({\
             std::string name = (#var);\
