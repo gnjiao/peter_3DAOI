@@ -20,15 +20,8 @@ namespace Job
      *      InspectionData类是读取程式文件,并导出为xml文件的类
      *
      *      类的成员变量包含:
-     *          1.数据类型为Board的成员(存放Board尺寸信息和数据信息的类)
-     *          2.程式文件的版本
-     *          3.程式文件最近一次的编辑时间
-     *      类的成员函数功能包含:
-     *          1.访存函数
-     *          2.将默认数据写入程式文件
-     *          3.读取传入的程式文件
-     *          4.将程式文件的数据导出为xml文件
-     *          5.打印程式文件的版本号、最近一次编辑时间
+     *          数据类型为Board的成员(存放Board尺寸信息和数据信息的类)
+     *
      *      使用操作:
      *          1.将程式文件路径传入readFromDB()函数,读取程式文件数据到内存
      *          2.将程式文件路径传入writeToDB()函数,将内存中的数据写入到数据库
@@ -42,24 +35,20 @@ namespace Job
     class InspectionData
     {
     public:
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // constructor & destructor function
         /**
          * @brief InspectionData
          *      默认构造函数
-         * @param N/A
-         * @return N/A
          */
         InspectionData();
         /**
          * @brief ~InspectionData
          *      析构函数
-         * @param N/A
-         * @return N/A
          */
         virtual~InspectionData();
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // get & set function
         Job::Board& board(){return this->m_board;}
 
@@ -70,7 +59,7 @@ namespace Job
         void setEditingTime(std::string time){this->m_lastEditingTime = time; }
 
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // write & read & print function
         /**
          * @brief writeToXml
@@ -130,7 +119,7 @@ namespace Job
 
 
     private:
-        Job::Board m_board;
+        Job::Board m_board;         // 存放Board尺寸信息和数据信息的成员变量
         std::string m_version {"V2"};
         std::string m_lastEditingTime {"2000-01-01 00:00:00"};
 

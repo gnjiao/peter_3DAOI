@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iostream>
 
+namespace SDK
+{
 // 异常时,将文件名、行号、函数名和详细信息+上一层的异常一起抛出
 #define THROW_EXCEPTION(exMsg)\
 {\
@@ -13,13 +15,30 @@
      message <<"File: "<<__FILE__<<"\n"\
              <<"Line:"<<__LINE__<<"\n"\
              <<"Func:"<<__FUNCTION__<<"\n"\
-             <<"Detail:\n"<< exMsg <<"\n";\
+             <<"Detail:"<< exMsg <<"\n";\
      std::string msg = message.str();\
      throw  SDK::CustomException(msg);\
 }
 
-namespace SDK
-{
+#define CATCH_AND_RETHROW_EXCEPTION(appendedMsg)\
+catch ( SDK::CustomException& ex )\
+{\
+    std::ostringstream message;\
+    message <<"File: "<<__FILE__<<"\n"\
+            <<"Line:"<<__LINE__<<"\n"\
+            <<"Func:"<<__FUNCTION__<<"\n"\
+            <<"Detail:"<< appendedMsg <<"\n"\
+            <<ex.what()<<"\n";\
+    std::string msg = message.str();\
+    throw  SDK::CustomException(msg);\
+}
+
+#define PRINT_EXCEPTION()\
+catch( SDK::CustomException& ex )\
+{\
+    std::cout << ex.what() << std::endl;\
+}
+
 /**
  *  @brief CustomException
  *
@@ -33,7 +52,7 @@ namespace SDK
     {
 
     public:
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // constructor & destructor
         /**
          * @brief CustomException
@@ -59,7 +78,7 @@ namespace SDK
         virtual ~CustomException();
 
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         const std::string originalMsg ( )const{return this->m_originalMsg;}
         virtual const char* what() const _GLIBCXX_USE_NOEXCEPT override{return m_originalMsg.data();}
 

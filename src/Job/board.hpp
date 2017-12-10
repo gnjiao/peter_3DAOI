@@ -17,15 +17,7 @@ namespace Job
      *     Board类中存放的是板子的名称,大小,原点和数据等信息;
      *
      *     类的成员变量包含:
-     *          1.类型为MeasureList的成员(存放板子上的元器件信息的类)
-     *          2.板子的名称
-     *          3.板子的原点x轴位置
-     *          4.板子的原点y轴位置
-     *          5.板子的长度
-     *          6.板子的宽度
-     *      类的成员函数功能包含:
-     *          1.访存函数
-     *          2.打印当前板子的名称,大小和原点信息.
+     *          类型为MeasureList的成员(存放板子上的元器件信息的类)
      *
      *  @author peter
      *  @version 1.00 2017-11-22 peter
@@ -34,25 +26,21 @@ namespace Job
     class Board
     {
     public:
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // constructor & destructor function
         /**
          * @brief Board
          *      默认构造函数
-         * @param N/A
-         * @return N/A
          */
         Board();
         /**
          * @brief ~Board
          *      析构函数
-         * @param N/A
-         * @return N/A
          */
         virtual~Board();
 
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // get & set function
         Job::MeasuredList& measuredList(){return this->m_measureList;}
 
@@ -72,7 +60,7 @@ namespace Job
         void setSizeY(double sizeY){this->m_sizeY = sizeY;}
 
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // print
         /**
          * @brief print
@@ -88,7 +76,7 @@ namespace Job
 
 
     private:
-        Job::MeasuredList m_measureList;
+        Job::MeasuredList m_measureList;    // 存放板子上的元器件信息的成员变量
         std::string m_name {"iPhone"};
         double m_originalX {0};
         double m_originalY {0};

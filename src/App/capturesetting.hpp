@@ -10,11 +10,16 @@
 #include "../SDK/customexception.hpp"
 #include "../SDK/formatconversion.hpp"
 
+
 namespace App
 {
-    //>>>--------------------------------------------------------------------------------
+    //>>>-----------------------------------------------------------------------
     // enum
-    enum class ImageBit //图像位数,包括8位和16位
+    /**
+     * @brief The ImageBit enum
+     *      支持的图像位数
+     */
+    enum class ImageBit
     {
         BIT8,
         BIT16
@@ -27,10 +32,6 @@ namespace App
      *      像面阵宽度、高度等程序运行时所必需的配置,没有或者配置错误都将导致检
      *      测数据错误,所以检测到异常的配置必须抛异常,并且中止程序继续运行.
      *
-     *      类的成员变量包含:
-     *          1.相机的图像面阵宽度    2.相机的图像面阵高度    3.图像支持的位数
-     *      类的成员函数包含:
-     *          1.加载配置文件    2.读取配置文件
      *      使用操作:
      *          将配置文件路径传入loadCaptureSetting()函数,读取配置文件中的配置:
      *              a.没有配置文件则直接抛出异常,停止程序运行
@@ -43,7 +44,7 @@ namespace App
     class CaptureSetting
     {
     public:
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // constructor & destructor
         /**
          * @brief CaptureSetting
@@ -60,7 +61,7 @@ namespace App
          */
         virtual~CaptureSetting();
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // load function
         /**
          *  @brief loadCaptureSetting
@@ -75,7 +76,7 @@ namespace App
 
 
     private:
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // read & write function
         /**
          *  @brief readCaptureSetting
@@ -88,8 +89,8 @@ namespace App
 
 
     private:
-        int m_imageWidth {3072};        // 相机的图像面阵宽度
-        int m_imageHeight {4096};       // 相机的图像面阵高度
+        int m_imageWidth {0};        // 相机的图像面阵宽度
+        int m_imageHeight {0};       // 相机的图像面阵高度
         ImageBit m_imageBit {ImageBit::BIT8};
 
 

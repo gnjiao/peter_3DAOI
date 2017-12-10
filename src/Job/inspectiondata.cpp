@@ -1,10 +1,12 @@
 #include "inspectiondata.hpp"
 
 using namespace Job;
+using namespace SDK;
 using namespace SSDK::DB;
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // constructor & destructor function
+
 InspectionData::InspectionData()
 {
     this->m_version = "V2";
@@ -15,14 +17,17 @@ InspectionData::~InspectionData()
 {
 
 }
+
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // write & read & print function
+
 void InspectionData::writeToXml(const QString& path)
 {
     QDomDocument doc;
+
     // 根元素 <Job>
     QDomElement job = doc.createElement("Job");
     job.setAttribute("LastEditTime",this->editingTime().c_str());  // 属性
@@ -64,6 +69,10 @@ void InspectionData::writeToXml(const QString& path)
         QTextStream out(&file);
         doc.save(out, QDomNode::EncodingFromDocument);
         file.close();
+    }
+    else
+    {
+        THROW_EXCEPTION("Open xml file error!");
     }
 }
 
@@ -108,7 +117,7 @@ void InspectionData::readFromDB(const QString& path)
             }
         }
     }
-    catch(SDK::CustomException& ex)
+    catch( CustomException& ex )
     {
         if(sqlite.isOpened())
         {
@@ -121,59 +130,75 @@ void InspectionData::readFromDB(const QString& path)
 
 void InspectionData::writeToDB(const QString& path)
 {
-    //>>>----------------------------------------------------------------------------------------------------------
-    // 1.写入版本信息和最后编辑时间
-    SqliteDB v2Sqlite;
-    v2Sqlite.open(path.toStdString());
-
-    std::string sqlcreate = "CREATE TABLE if not exists Job(Version TEXT,LastEditingTime TEXT);";
-    v2Sqlite.execute( sqlcreate );
-    std::string sqlInsert = "INSERT INTO Job(Version,LastEditingTime) VALUES(?,?);";
-    v2Sqlite.execute( sqlInsert, this->version(), this->editingTime() );
-
-    //>>>----------------------------------------------------------------------------------------------------------
-    // 2.写board表头
-    sqlcreate = "CREATE TABLE if not exists Board(name TEXT,originalX REAL,originalY REAL,sizeX REAL,sizeY REAL);";
-    v2Sqlite.execute( sqlcreate );
-
-    sqlInsert = "INSERT INTO Board(name, originalX, originalY, sizeX, sizeY) VALUES(?,?,?,?,?);";
-    v2Sqlite.execute( sqlInsert,
-                      this->board().name(),
-                      this->board().originalX(),
-                      this->board().originalY(),
-                      this->board().sizeX(),
-                      this->board().sizeY() );
-
-    //>>>----------------------------------------------------------------------------------------------------------
-    // 3.写入数据库数据
-    sqlcreate = "CREATE TABLE if not exists MeasureObjs(name TEXT, xPos REAL, yPos REAL, angle REAL, width REAL, height REAL);";
-    v2Sqlite.execute( sqlcreate );
-
-    // 执行插入语句
-    sqlInsert = "INSERT INTO MeasureObjs(name, xPos, yPos, angle, width,height) VALUES(?,?,?,?,?,?);";
-    v2Sqlite.prepare(sqlInsert);
-    v2Sqlite.begin();
-    Job::MeasuredObj* pTemp = this->board().measuredList().pHead();
-    while( nullptr != pTemp )
+    SqliteDB sqlite;
+    sqlite.open( path.toStdString() );
+    try
     {
-        std::string str = pTemp->name();
-        v2Sqlite.executeWithParms( str.data(),
-                                   pTemp->body().xPos(),
-                                   pTemp->body().yPos(),
-                                   pTemp->body().angle(),
-                                   pTemp->body().width(),
-                                   pTemp->body().height() );
-        pTemp = pTemp->pNext(); //将临时指针指向链表中下一个元素
+        //>>>--------------------------------------------------------------------------------
+        // 1.写入版本信息和最后编辑时间
+        if( !sqlite.isOpened() )
+        {
+            THROW_EXCEPTION("Open sqlite file error!");
+        }
+
+        std::string sqlcreate = "CREATE TABLE if not exists Job(Version TEXT,LastEditingTime TEXT);";
+        sqlite.execute( sqlcreate );
+        std::string sqlInsert = "INSERT INTO Job(Version,LastEditingTime) VALUES(?,?);";
+        sqlite.execute( sqlInsert, this->version(), this->editingTime() );
+
+        //>>>--------------------------------------------------------------------------------
+        // 2.写board表头
+        sqlcreate = "CREATE TABLE if not exists Board(name TEXT,originalX REAL,originalY REAL,sizeX REAL,sizeY REAL);";
+        sqlite.execute( sqlcreate );
+
+        sqlInsert = "INSERT INTO Board(name, originalX, originalY, sizeX, sizeY) VALUES(?,?,?,?,?);";
+        sqlite.execute( sqlInsert,
+                          this->board().name(),
+                          this->board().originalX(),
+                          this->board().originalY(),
+                          this->board().sizeX(),
+                          this->board().sizeY() );
+
+        //>>>--------------------------------------------------------------------------------
+        // 3.写入数据库数据
+        sqlcreate = "CREATE TABLE if not exists MeasureObjs(name TEXT, xPos REAL, yPos REAL, angle REAL, width REAL, height REAL);";
+        sqlite.execute( sqlcreate );
+
+        // 执行插入语句
+        sqlInsert = "INSERT INTO MeasureObjs(name, xPos, yPos, angle, width,height) VALUES(?,?,?,?,?,?);";
+        sqlite.prepare(sqlInsert);
+        sqlite.begin();
+        Job::MeasuredObj* pTemp = this->board().measuredList().pHead();
+        while( nullptr != pTemp )
+        {
+            std::string str = pTemp->name();
+            sqlite.executeWithParms( str.data(),
+                                       pTemp->body().xPos(),
+                                       pTemp->body().yPos(),
+                                       pTemp->body().angle(),
+                                       pTemp->body().width(),
+                                       pTemp->body().height() );
+            pTemp = pTemp->pNext(); //将临时指针指向链表中下一个元素
+        }
+        sqlite.commit();          //将数据列表中的数据一次性写入数据库
+        sqlite.close();           //关闭数据库
     }
-    v2Sqlite.commit();          //将数据列表中的数据一次性写入数据库
-    v2Sqlite.close();           //关闭数据库
+    catch( CustomException& ex)
+    {
+        if(sqlite.isOpened())
+        {
+            sqlite.reset();
+            sqlite.close(); // 发生异常了需要特别注意需要关闭数据库
+        }
+        THROW_EXCEPTION( ex.what() );
+    }
 }
 
 void InspectionData::readCurrentVersionDB(SqliteDB& sqlite)
 {
     try
     {
-        if(sqlite.isOpened())
+        if( sqlite.isOpened() )
         {
             // 读取Job信息
             std::string selectedString = "select Version from Job";

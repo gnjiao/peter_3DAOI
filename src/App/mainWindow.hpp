@@ -30,9 +30,7 @@ namespace App
      *          1.数据类型为AppSetting的成员(非软件运行必需的配置文件类)
      *          2.数据类型为CaptureSetting的成员(软件运行必需的配置文件类)
      *          3.数据类型为InspectionData的成员(检测程式文件数据的类)
-     *      类的成员函数功能包含:
-     *          1.加载配置文件
-     *          2.扫描程式文件
+     *
      *      使用操作:
      *          1.传入配置文件路径给loadSetting()函数,检测配置是否正确.
      *          2.将存放程式文件夹路径传入scanJobFolder()函数,
@@ -46,29 +44,25 @@ namespace App
     class MainWindow
     {
     public:
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // constructor & destructor function
         /**
          * @brief MainWindow
          *      默认构造函数
-         * @param N/A
-         * @return N/A
          */
         MainWindow();
         /**
          * @brief ~MainWindow
          *      析构函数
-         * @param N/A
-         * @return N/A
          */
         virtual~MainWindow();
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // get function
         Job::InspectionData inspectionData(){return this->m_inspectionData;}
 
-        //>>>--------------------------------------------------------------------------------
-        // load & scan function
+        //>>>-------------------------------------------------------------------
+        // load function
         /**
          * @brief loadSetting
          *      加载配置文件:
@@ -83,7 +77,7 @@ namespace App
         void loadSetting( const QString& appSettingPath,
                           const QString& captureSettingPath );
         /**
-         * @brief scanJobFolder
+         * @brief loadJobFolder
          *      扫描程式文件目录下是否有程式文件
          *          1.没有程式文件则自动创建,写入默认值
          *          2.有程式文件则加载程式文件,读取数据信息
@@ -91,11 +85,11 @@ namespace App
          *      待扫描的存放程式文件的文件夹路径
          * @return N/A
          */
-        void scanJobFolder(const QString& path);
+        void loadJobFolder(const QString& jobFolderPath);
 
 
     private:
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // generate data
         /**
          * @brief generateObjsRandomly
@@ -113,9 +107,9 @@ namespace App
 
 
     private:
-        App::AppSetting m_appSetting;
-        App::CaptureSetting m_captureSetting;
-        Job::InspectionData m_inspectionData;
+        App::AppSetting m_appSetting;   // 非软件运行必需的配置文件的成员变量
+        App::CaptureSetting m_captureSetting;   // 软件运行必需的配置文件的成员变量
+        Job::InspectionData m_inspectionData;   // 检测程式文件数据的成员变量
     };
 }//End of namespace App
 

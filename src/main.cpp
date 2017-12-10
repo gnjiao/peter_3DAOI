@@ -16,22 +16,19 @@ int main()
 {
     try
     {
-        App::MainWindow appStart;
+        App::MainWindow mainWindow;
 
         // 加载配置文件
-        appStart.loadSetting( APP_SETTING_PATH,CAPTURE_SETTING_PATH );
+        mainWindow.loadSetting( APP_SETTING_PATH,CAPTURE_SETTING_PATH );
 
-        // 扫描程式文件夹下是否有程式文件
-        appStart.scanJobFolder(JOB_FOLDER_PATH );
+        // 加载用户选择的程式文件
+        mainWindow.loadJobFolder(JOB_FOLDER_PATH );
 
         // 在屏幕上打印程式信息
-        appStart.inspectionData().print();
-    }
-    catch ( SDK::CustomException& ex)
-    {
-        std::cout << ex.what() << std::endl;
-    }
+        mainWindow.inspectionData().print();
 
+    }
+    PRINT_EXCEPTION();
 
     return 0;
 }

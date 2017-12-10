@@ -26,25 +26,21 @@ namespace Job
     class MeasuredObj
     {
     public:
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // constructor & destructor
         /**
          * @brief MeasuredObj
-         *      构造函数
-         * @param N/A
-         * @return N/A
+         *      默认构造函数
          */
         MeasuredObj();
         /**
          * @brief ~MeasuredObj
          *      析构函数
-         * @param N/A
-         * @return N/A
          */
         virtual~MeasuredObj();
 
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // get & set function
         std::string name(){return this->m_name;}
         void setName(std::string name){this->m_name = name;}

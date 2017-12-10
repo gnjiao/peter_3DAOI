@@ -4,6 +4,7 @@ using namespace App;
 using namespace SDK;
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // constructor & destructor
+
 AppSetting::AppSetting()
 {
     this->m_companyName = "SciJet";
@@ -17,42 +18,43 @@ AppSetting::~AppSetting()
 {
 
 }
+
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //>>>----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // load & read & write function
-void AppSetting::loadAppSetting(const QString& path)
+
+void AppSetting::loadAppSetting(const QString& appSettingPath)
 {
     try
     {
-        if( !QFile::exists(path) )
-        {   // 路径不存在, 新建一个配置文件, 参数使用默认值
-            writeAppSetting(path);
+        if( !QFile::exists(appSettingPath) )
+        {
+            // 文件不存在, 新建一个配置文件, 参数使用默认值
+            writeAppSetting(appSettingPath);
         }
         else
-        {   // 路径存在,读取配置文件
-            readAppSetting(path);
+        {
+            // 文件存在,读取配置文件
+            readAppSetting(appSettingPath);
         }
     }
-    catch( const SDK::CustomException& ex )
-    {
-        THROW_EXCEPTION(ex.what());
-    }
+    CATCH_AND_RETHROW_EXCEPTION("Catch exception and rethrow");
 }
 
-void AppSetting::readAppSetting(const QString& path)
+void AppSetting::readAppSetting(const QString& appSettingPath)
 {
     try
     {
-        QSettings configFile(path, QSettings::IniFormat);
-        if( 1 != QSettings::IniFormat)
+        QSettings configFile(appSettingPath, QSettings::IniFormat);
+        if( !configFile.isWritable() )
         {
             //加载配置文件失败,抛出异常.
-            THROW_EXCEPTION("Load ini file error!")
+            THROW_EXCEPTION("Load AppSetting file error!")
         }
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // 1.加载公司名, 不正确就写入默认值
         QString name =  configFile.value("CompanyName").toString();
         if(name != "" )
@@ -63,7 +65,7 @@ void AppSetting::readAppSetting(const QString& path)
         {
             configFile.setValue("CompanyName",QString::fromStdString(m_companyName));
         }
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // 2.加载机器名称, 不正确就写入默认值
         QString type =  configFile.value("MachineName").toString();
         if ( type.toUpper().toStdString() == VAR_TO_STR(MachineName::AOI) )
@@ -79,7 +81,7 @@ void AppSetting::readAppSetting(const QString& path)
             configFile.setValue( "MachineName",
                                  QString::fromStdString(VAR_TO_STR(MachineName::AOI)) );
         }
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // 3.加载主题, 不正确就写入默认值
         QString theme =  configFile.value("Theme").toString();
         if ( theme.toUpper().toStdString() == VAR_TO_STR(Theme::BLACK) )
@@ -95,7 +97,7 @@ void AppSetting::readAppSetting(const QString& path)
             configFile.setValue( "Theme",
                                  QString::fromStdString(VAR_TO_STR(Theme::BLACK)) );
         }
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         //4.加载语言,不正确就写入默认值
         QString language =  configFile.value("Language").toString();
         if ( language.toUpper().toStdString() == VAR_TO_STR(Language::CN) )
@@ -111,7 +113,7 @@ void AppSetting::readAppSetting(const QString& path)
             configFile.setValue( "Language",
                                   QString::fromStdString(VAR_TO_STR(Language::EN)) );
         }
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // 5.加载机器类型,不正确就写入默认值
         QString mode =  configFile.value("LaneMode").toString();
         if ( mode.toUpper().toStdString() == VAR_TO_STR(LaneMode::SIMULATOR) )
@@ -132,20 +134,18 @@ void AppSetting::readAppSetting(const QString& path)
                                  QString::fromStdString(VAR_TO_STR(LaneMode::DUAL_LANE)) );
         }
     }
-    catch(const CustomException& ex)
-    {
-        THROW_EXCEPTION(ex.what());
-    }
+    CATCH_AND_RETHROW_EXCEPTION("Catch exception and rethrow");
 }
 
-void AppSetting::writeAppSetting(const QString &path)
+void AppSetting::writeAppSetting( const QString& appSettingPath )
 {
     try
     {
-        QSettings configFile(path, QSettings::IniFormat);
-        if( 1 != QSettings::IniFormat)
+        QSettings configFile(appSettingPath, QSettings::IniFormat);
+
+        if( !configFile.isWritable() )
         {
-            THROW_EXCEPTION("Load ini file error!")
+            THROW_EXCEPTION("Create AppSetting error!");
         }
         // 配置文件不存在,创建默认值配置文件
         configFile.setValue( "CompanyName",
@@ -158,12 +158,11 @@ void AppSetting::writeAppSetting(const QString &path)
                               QString::fromStdString(VAR_TO_STR(Language::EN)) );
         configFile.setValue( "LaneMode",
                              QString::fromStdString(VAR_TO_STR(LaneMode::DUAL_LANE)) );
+
     }
-    catch ( const CustomException& ex )
-    {
-        THROW_EXCEPTION(ex.what());
-    }
+    CATCH_AND_RETHROW_EXCEPTION("Catch exception and rethrow");
 }
+
 //<<<----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 

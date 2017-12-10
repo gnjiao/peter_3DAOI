@@ -32,25 +32,21 @@ namespace Job
     class MeasuredList
     {
     public:
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // constructor & destructor
         /**
          *  @brief MeasureList
          *      默认构造函数
-         *  @param N/A
-         *  @return N/A
          */
         MeasuredList();
         /**
          * @brief ~MeasuredList
          *      析构函数
-         * @param N/A
-         * @return N/A
          */
         virtual~MeasuredList();
 
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // set & get function
         MeasuredObj* pHead(){return this->m_pHead;}
         void setHead(MeasuredObj* pHead){this->m_pHead = pHead;}
@@ -59,7 +55,7 @@ namespace Job
         void setTail(MeasuredObj* pTail){this->m_pTail = pTail;}
 
 
-        //>>>--------------------------------------------------------------------------------
+        //>>>-------------------------------------------------------------------
         // size & isEmpty & clear &print function
         /**
          * @brief size

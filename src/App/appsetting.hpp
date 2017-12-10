@@ -14,22 +14,38 @@ namespace App
 {
     //>>>------------------------------------------------------------------------------------
     //enum
-    enum class MachineName// 机器名称,包括AOI和SPI两种
+    /**
+     * @brief The MachineName enum
+     *      机器名称
+     */
+    enum class MachineName
     {
-        AOI,
-        SPI
+        AOI,    // 自动光学检测设备
+        SPI     // 锡膏检测设备
     };
-    enum class Theme// 界面主题,包括黑色和白色两个主题
+    /**
+     * @brief The Theme enum
+     *      界面主题
+     */
+    enum class Theme
     {
         BLACK,
         WHITE
     };
-    enum class Language// 语言种类,包括英文和中文两种语言
+    /**
+     * @brief The Language enum
+     *      机器语言
+     */
+    enum class Language
     {
         EN,
         CN
     };
-    enum class LaneMode// 机器种类,包括模拟器、单轨机和双轨机
+    /**
+     * @brief The LaneMode enum
+     *      机器种类
+     */
+    enum class LaneMode
     {
         SIMULATOR,      // 模拟器,模拟机器运行的电脑
         SINGLE_LANE,    // 单轨机,只有一条轨道的机器
@@ -44,10 +60,6 @@ namespace App
      *      不是程序运行时所必需的配置;如果不存在则直接创建默认的配置,存在则配
      *      置是否正确,不正确则使用默认参数.
      *
-     *      类的成员变量包含:
-     *          1.公司名   2.机器名   3.主题    4.语言    5.机器类型
-     *      类的成员函数包含:
-     *          1.加载配置文件    2.读取配置文件    3.写入配置文件
      *      使用操作:
      *          将配置文件路径传入loadAppSetting()函数,读取配置文件中的配置:
      *              a.配置文件不存在则自动生成默认配置文件
@@ -65,15 +77,11 @@ namespace App
         /**
          * @brief AppSetting
          *      默认构造函数
-         * @param N/A
-         * @return N/A
          */
         AppSetting();
         /**
          * @brief ~CaptureSetting
          *      析构函数
-         * @param N/A
-         * @return N/A
          */
         virtual ~AppSetting();
 
@@ -86,7 +94,7 @@ namespace App
          *      待加载的配置文件路径
          *  @return N/A
          */
-        void loadAppSetting(const QString& path);
+        void loadAppSetting(const QString& appSettingPath);
 
     private:
         //>>>--------------------------------------------------------------------------------
@@ -98,7 +106,7 @@ namespace App
          *      待读取的配置文件路径
          *  @return N/A
          */
-        void readAppSetting( const QString& path );
+        void readAppSetting(const QString& appSettingPath );
         /**
          *  @brief writeAppSetting
          *      配置文件不存在时,将默认配置信息写到文件中
@@ -106,13 +114,18 @@ namespace App
          *      待写入的配置文件路径
          *  @return N/A
          */
-        void writeAppSetting( const QString& path );
+        void writeAppSetting(const QString& appSettingPath );
 
     private:
+        // 公司名称，默认为“SciJet”
         std::string m_companyName {"SciJet"};
+        // 设备类型，AOI为检测贴片元件设备，SPI为检测锡膏设备
         MachineName m_machineName {MachineName::AOI};
+        // 软件内运行时的主题
         Theme m_theme {Theme::WHITE};
+        // 软件内运行时的语言
         Language m_lang {Language::EN};
+        // 机器设备的种类，分为模拟器，单条轨道的机器和两条轨道的机器
         LaneMode m_laneMode {LaneMode::DUAL_LANE};
     };
 
